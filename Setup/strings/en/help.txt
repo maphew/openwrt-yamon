@@ -1,0 +1,34 @@
+
+******************************************************************
+YAMon Help
+Copyright (c) 2013-2015 Al Caughey
+All rights reserved.
+
+LAUNCHING THE SCRIPT:
+Assuming that you've installed the software in the default directory, 
+the simplest way to launch the script is to simply type:
+  root: /opt/YAMon2/Setup/yamon.startup
+
+[When no parameter is passed to the script, it assumes that `config.file` 
+is found in the default base directory - e.g., `/opt/YAMon2/Setup/`.]
+
+If you have installed the software elsewhere, you should pass the full path
+to `config.file` to `yamon2.sh` - as follows:
+  root: <path_to_yamon2> <path_to_config_file>
+
+STOPPING THE SCRIPT
+To stop the script, you can now enter
+  root: /opt/YAMon2/Setup/yamon2.shutdown
+Alternatively, enter `rmdir /tmp/YAMon-running` or manually delete that 
+directory (using WinSCP or equivalent)
+
+GETTING HELP
+It seems a little odd that I'd have to explain how to get to the help screens
+when you're already here?!?... but to see this help screen, enter 
+  root: /opt/YAMon2/Setup/yamon2.sh --help
+Alternatively, see http://usage-monitoring.com for more documentation 
+and/or ways to contact me.  
+
+******************************************************************
+
+ 

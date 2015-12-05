@@ -1,0 +1,8 @@
+
+******************************************************************
+***                          ERROR!!!                          ***
+***  Cannot get the date/time set properly?!?                  ***
+***  Please check your date & time settings in the DD-WRT GUI  ***
+******************************************************************
+
+ 

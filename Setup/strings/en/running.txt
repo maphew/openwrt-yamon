@@ -1,0 +1,16 @@
+
+**********************************************************
+***                      ERROR!!!                      ***
+***  Unable to start...                                ***
+***  An instance of `yamon2.sh` is already running!!!  ***
+***  You must stop that instance before starting       ***
+***  a new one.                                        ***
+**********************************************************
+ 
+You can stop that instance by: 
+ * running `yamon.shutdown` [*RECOMMENDED*]
+      e.g., `/opt/YAMon2/Setup/yamon.shutdown`
+ * running the yamon2 script with the `--stop` parameter 
+      e.g., `/opt/YAMon2/Setup/yamon2.3.x --stop`
+ * deleting the `/tmp/YAMon-running` directory 
+     

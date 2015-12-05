@@ -5,7 +5,7 @@
 # Copyright (c) 2013-2015 Al Caughey
 # All rights reserved.
 #
-#  Copy this file to the Administration-->Commands tab in the DD-WRT GUI
+#  Call this file from the Administration-->Commands tab in the DD-WRT GUI
 #
 ##########################################################################
 
@@ -15,11 +15,32 @@
 #      to yamon2.sh and config.file
 #
 
-# wait for a bit (10 seconds)... depending on your router you can make this longer or shorter
-sleep 10
+d_baseDir=`dirname $0`
+source "$d_baseDir/includes/util.sh"
+_configFile="$d_baseDir/config.file"
 
-# change path to suit your installation
-path="/mnt/sda1/yamon/Setup"
+source "$d_baseDir/includes/defaults.sh"
+loadconfig "$_configFile"
+
+if [ -d "$_lockDir" ] ; then
+    showmsg 'running.txt'
+    exit 0
+fi
+# wait for a bit (10 seconds)... depending on your router you can make this longer or shorter
+
+delay=10
+echo "
+******************************************************************
+YAMon will be started following a delay of $delay seconds.
+ 
+NB - depending on your router and firmware, you may have to increase
+     this delay (to allow  other processes to startup properly),
+     or you may be able to eliminate the delay altogether.
+******************************************************************
+"
+sleep $delay
+
+clear
 
 # launch the script
-$path/yamon2.sh
+${d_baseDir}/yamon${_version}.sh

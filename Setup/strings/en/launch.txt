@@ -1,0 +1,5 @@
+Launch options:
+  + <path to yamon2.sh>
+  + <path to yamon2.sh> <path to config.file>
+  + <path to yamon2.sh> --help
+  + <path to yamon2.sh> --stop
