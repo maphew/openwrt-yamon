@@ -28,7 +28,7 @@ if [ -d "$_lockDir" ] ; then
 fi
 # wait for a bit (10 seconds)... depending on your router you can make this longer or shorter
 
-delay=10
+delay=1
 echo "
 ******************************************************************
 YAMon will be started following a delay of $delay seconds.
