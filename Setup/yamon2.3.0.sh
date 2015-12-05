@@ -127,14 +127,17 @@ readConfig(){
     
     loadconfig "$_configFile"
 	
+	# DD-WRT
 	if [ "$_firmware" -eq "0" ]; then
 		_lan_iface=$(nvram get lan_ifname)
 		_conntrack="/proc/net/ip_conntrack"
 		_conntrack_awk='BEGIN { printf "var curr_connections=[ "} { gsub(/(src|dst|sport|dport)=/, ""); printf "[ '\''%s'\'','\''%s'\'','\''%s'\'','\''%s'\'','\''%s'\'' ],",$1,$1 == "tcp" ? $5 : $4,$1 == "tcp" ? $7 : $6,$1 == "tcp" ? $6 : $5,$1 == "tcp" ? $8 : $7; } END { print "[ null ] ]"}'
-	elif [ "$_firmware" -eq "1" ]; then
+	# OpenWrt || Padavan
+	elif [ "$_firmware" -eq "1" || "$_firmware" -eq "3" ]; then
 		_lan_iface="br-lan"
 		_conntrack="/proc/net/nf_conntrack"
 		_conntrack_awk='BEGIN { printf "var curr_connections=[ "} { gsub(/(src|dst|sport|dport)=/, ""); printf "[ '\''%s'\'','\''%s'\'','\''%s'\'','\''%s'\'','\''%s'\'' ],",$3,$3 == "tcp" ? $7 : $6,$3 == "tcp" ? $9 : $8,$3 == "tcp" ? $8 : $7,$3 == "tcp" ? $10 : $9; } END { print "[ null ] ]"}'
+	# Asuswrt-Merlin
 	elif [ "$_firmware" -eq "2" ]; then
 		_lan_iface=$(nvram get lan_ifname)
 		_conntrack="/proc/net/ip_conntrack"
@@ -320,7 +323,7 @@ getNewDeviceName()
 	if [ "$_firmware" -eq "0" ] ; then
 		_nvr=$(nvram show 2>&1 | grep -i "static_leases=")
 		result=$(echo "$_nvr" | grep -io "$dMac=.*=" | cut -d= -f2)
-	elif [ "$_firmware" -eq "1" ] ; then
+	elif [ "$_firmware" -eq "1" || "$_firmware" -eq "3" ] ; then
 		# thanks to Robert Micsutka for providing this code
 		local ucihostid=$(uci show dhcp | grep dhcp.@host....mac= | grep -i $dMac | cut -d. -f2)
 		[ -n "$ucihostid" ] && result=$(uci get dhcp.$ucihostid.name)
@@ -503,7 +506,8 @@ setupIPv6Rules()
 }
 setwebdirectories()
 {
-    [ "$_firmware" -eq "1" ] && [ ! -h "/www/custom/user" ] &&ln -s "/tmp/www" "/www/custom/user"
+    [ "$_firmware" -eq "1" ] && [ ! -h "/www/user" ] &&ln -s "/tmp/www" "/www/user"
+    [ "$_firmware" -eq "3" ] && [ ! -h "/www/custom/user" ] &&ln -s "/tmp/www" "/www/custom/user"
 	send2log "=== setwebdirectories ===" 0
 	if [ "$_symlink2data" -eq "1" ] ; then
 		local lcss=${_wwwCSS%/}
