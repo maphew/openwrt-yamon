@@ -482,7 +482,7 @@ $newuser"
 			send2log "	>>> newuser -- > $newuser" 1
 			u_changes=$(($u_changes + 1))
 		else
-			send2log "	>>> Skipping IP change for $ucm - not sure which of $countMAC IP's to change ==> cMACIP: $cMACIP  cIP:$cIP" 0
+			send2log "	>>> Skipping IP change for $ucm - not sure which of $countMAC IP\'s to change ==> cMACIP: $cMACIP  cIP:$cIP" 0
 		fi
 	done
 	unset IFS
