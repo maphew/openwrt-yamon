@@ -1051,11 +1051,16 @@ $newuser"
 getLocalCopies()
 {
 	send2log "=== Getting a local copy of JS & CSS files === $_doLocalFiles" 2
-	local path="$_baseDir$_setupWebDir"
+	local path="$_baseDir/$_setupWebDir"
 	path=${path%/}
 	local webpath="$_wwwPath$_wwwJS"
 	webpath=${webpath%/}
 	local web="http://usage-monitoring.com/current"
+
+	echo "********"
+	echo "$path"
+	echo "$webpath"
+	echo "********"
 
 	local _yamonhtml="$path/yamon2.html"
 	local _yamonjs="$webpath/yamon$_file_version.js"
