@@ -35,7 +35,7 @@ _dataDir="data/"                             # path to the data directory (* def
 _logDir="logs/"                              # path to log files  (* default `logs/`)
                                              #   NB - If _logDir starts with a slash it will be an absolute path (and _baseDir will be ignored)
 _symlink2data='1'	 # use a symbolic link to /opt/YAMon2/data rather than /tmp/www/data... permitted values: 0->false || 1->true(*)
-_wwwPath="/tmp/www/"                         # path to web directory (* default `/tmp/www/`)
+_wwwPath="/www/custom/"                         # path to web directory (* default `/tmp/www/`)
 _wwwData="data"                              # path to web data directory(* default `data/`)
 _wwwJS="js/"                                 # path to JavaScript directory(* default `js/`)
 _wwwCSS="css/"                               # path to CSS directory(* default `css/`)
