@@ -1,9 +1,14 @@
 
-**********************************************************
+******************************************************************
+*  Please wait for the message indicating that 
+*  the script has stopped... this may take up to 15 seconds
 *
-*  Please wait for the message indicating that the script
-*  has stopped... this may take up to 15 seconds
+*  NB - that message will only appear if you are stopping the
+*       script in the same `cmd` window as it was started in.
 *
-**********************************************************
+*       So you just might wait 15 seconds for nothing...
+*       Nothing at all...
+*
+******************************************************************
 
  

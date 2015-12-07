@@ -5,33 +5,14 @@
 # Copyright (c) 2013-2015 Al Caughey
 # All rights reserved.
 #
-#  Call this file from the Administration-->Commands tab in the DD-WRT GUI
+#  Copy this file to the Administration-->Commands tab in the DD-WRT GUI
 #
 ##########################################################################
 
-d_baseDir=`dirname $0`
-source "$d_baseDir/includes/util.sh"
-source "$d_baseDir/includes/defaults.sh"
-_configFile="$d_baseDir/config.file"
-loadconfig "$_configFile"
+# change path to suit your installation
+path="/opt/YAMon2/Setup"
 
-# stop the script by removing the locking directory
-if [ -d $_lockDir ] ; then
-    rmdir $_lockDir
-else
-    showmsg 'notrunning.txt'
-    exit
-fi
-
-showmsg 'stop.txt' "$_updatefreq" 
-
-local n=0
-while [ true ]; do
-    n=$(($n + 1))
-    top=$(top -n1 | grep "yamon${_version}")
-    [ "$n" -gt "$_updatefreq" ] && exit
-    [ -z "$top" ] && showmsg 'stopped.txt' && exit
-    sleep 1
-done
+# stop the script
+$path/yamon2.sh --stop
 
 exit
