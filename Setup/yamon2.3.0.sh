@@ -503,10 +503,7 @@ setupIPv6Rules()
 }
 setwebdirectories()
 {
-    [ "$_firmware" -eq "1" ] && [ ! -h "/www/custom" ] &&ln -s "/tmp/www" "/www/custom"
-		# "custom" required for Padavan. /www is read only, with a ./www/custom a symlink to 
-		# writeable /opt/share/www/custom
-		# TODO: add another firmware option, because this change might break stock openwrt
+    [ "$_firmware" -eq "1" ] && [ ! -h "/www/custom/user" ] &&ln -s "/tmp/www" "/www/custom/user"
 	send2log "=== setwebdirectories ===" 0
 	if [ "$_symlink2data" -eq "1" ] ; then
 		local lcss=${_wwwCSS%/}
