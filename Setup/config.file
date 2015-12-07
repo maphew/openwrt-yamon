@@ -21,7 +21,7 @@
 # version 2.2.3 - removed _setupDir
 
 
-#_firmware='1'	 # which firmware is running on the router: permitted values: 0->DD-WRT(*) || 1->OpenWrt || 2->Asuswrt-Merlin
+_firmware='1'	 # which firmware is running on the router: permitted values: 0->DD-WRT(*) || 1->OpenWrt || 2->Asuswrt-Merlin
 _updatefreq='30'	 # number of seconds between updates (* default `15` sec)
 
 _publishInterval='2'	 # number of intervals between updates for to the website (* default `12`)
@@ -71,10 +71,10 @@ _settings_pswd=''                            # optionally password protect the S
 _dnsmasq_conf="/tmp/dnsmasq.conf"            # path to dnsmasq.conf (* default `/tmp/dnsmasq.conf`)
 _dnsmasq_leases="/tmp/dnsmasq.leases"        # path to dnsmasq.leases (* default `/tmp/dnsmasq.leases`)
 _do_separator='-'                            # a default separator character between owner and device name in static leases or dnsmasq values, e.g., Al-iPhone
-_includeBridge=1                             # whether or not there is a bridge in your wireless configuration - values: 0-->No(*) || 1->Yes
+_includeBridge=0                             # whether or not there is a bridge in your wireless configuration - values: 0-->No(*) || 1->Yes
 _bridgeMAC="XX:XX:XX:XX:XX:XX"               # mac address for the bridge device
                                              #   NB - only required if _includeBridge == 1
-_bridgeIP="192.168.2.254"                    # ip address for the bridge device...
+_bridgeIP="192.168.x.xxx"                    # ip address for the bridge device...
                                              #   NB - only required if _includeBridge == 1
 _defaultOwner="Unknown"                      # default owner name for new devices
 _defaultDeviceName="New Device"              # default name for new devices if nothing can be found by the script
