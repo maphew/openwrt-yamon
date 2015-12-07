@@ -26,7 +26,7 @@ _updatefreq='30'	 # number of seconds between updates (* default `15` sec)
 
 _publishInterval='2'	 # number of intervals between updates for to the website (* default `12`)
 _ispBillingDay='1'	 # roll-over day of the month for ISP billing (* default `1`)
-_baseDir='.'	 # path to the installation folder (* default `/opt/YAMon/`)
+_baseDir='/opt/YAMon/'	 # path to the installation folder (* default `/opt/YAMon/`)
 _setupWebDir="Setup/www/"                    # path to the web files (* default `Setup/www/`)
 _setupWebIndex="yamon2.html"                 # path to the index page (* default `yamon2.html`)
 
