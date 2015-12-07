@@ -1,13 +1,13 @@
-Yet Another Monitor (version 2.2.5)
-Last updated: Sep 9, 2015... a minor update with some improvements on the _doLocalFiles functionality and improved cross-browser support in the reports
+Yet Another Monitor (version 2.3.0)
+Last updated: Nov 21, 2015... a minor update with some improvements some architectural changes within the router scripts.  The most significant change is the new setup.sh script that walks you through the process of setting default values in config.file and setting permissions of files & directories.
 
 Yet Another Monitor (YAMon) records and reports on the traffic (downloads and uploads) for all of the devices connecting to your router.  The data is aggregated by hour, day and month (within your ISP billing interval) and can be rolled-up into arbitrary groups (e.g., by family member or by any other logical grouping of devices).  
 
-In short, YAMon runs on routers that have been `flashed` to one of the *WRT firmware variants (e.g., DD-WRT, OpenWRT, AsusWRT, etc) and gives you an unprecedented view of the traffic on your network.
-- The `Daily Usage` and `Hourly Usage` reports allow you to see which devices used how much bandwidth when (did your kids really really go to school and did they really shut off their devices at bedtime?).  
-- The `Monthly Usage` report shows who is consuming the most bandwidth on which device and projects your total usage for your ISP billing interval (allowing you to throttle consumption before you get hit with a large overage fee).  
-- The `Live Usage` reports allow you to see which addresses each device is connecting to and includes geo-location lookups (you can find out or at least ask why your kid's device is connecting to a server in Lithunia or elsewhere).  
-- Usage history allows you to view and compare results across billing intervals.  
+YAMon runs on routers that have been `flashed` to one of the *WRT firmware variants (e.g., DD-WRT, OpenWRT, AsusWRT, etc) and gives you an unprecedented view of the traffic on your network.  The reports allow you to see 
+- which devices used how much bandwidth, when - e.g., did your kids really really go to school?  did they really shut off their devices at bedtime?  
+- who is consuming the most bandwidth on which device and project your total usage for your ISP billing interval (allowing you to throttle consumption before you get hit with a large overage fee).  
+- which IP addresses each device is connecting to and includes geo-location lookups - e.g., you can find out, or at least ask, why your kid's device is connecting to a server in Lithunia or elsewhere.  
+- Usage history across multiple billing intervals.  
 Further, you can optionally include upload/download figures from your ISP to compare totals recorded at your router with theirs.  Other options in the configuration file allow you to define an `bonus data` interval (e.g., some ISPs do not count usage between 2AM and 7AM towards your bandwidth cap).
 
 For a more detail explanation of YAMon's features and benefits, please go to http://usage-monitoring.com.
@@ -18,11 +18,11 @@ SHORT REQUIREMENTS CHECKLIST FOR YAMon
 These instructions presume that 
 1) you have already upgraded the firmware on your router to an appropriate firmware variant (e.g., DD-WRT, OpenWRT, AsusWRT, etc).  See the particular discussion forums, if you have any questions about installing or configuring the firmware.
 
-2) you have a permanent storage location for YAMon's data files.  This is easiest if you are able to plug a USB drive directly into your router.  If your router does not have a USB port, do not despair!  It is possible to mount a shared volume from somewhere on your network and use that instead - however, you'll have to deviate somewhat from the default installation steps describe below (and this document does not cover those configuration steps).  
+2) you have a permanent storage location for YAMon's data files.  This is easiest if you are able to plug a USB drive directly into your router.  If your router does not have a USB port, do not despair as it is possible to mount a shared volume on your network and use that instead - however, you'll have to deviate somewhat from the default installation steps describe below (and this document does not cover those configuration steps).  
 
-   NB - if you are plugging a USB drive into your router, I recommend that it is formatted to the `ext2` or `ext4` file system.  Some users have tried other formatting schemes and have gotten messages about a `read-only file system error`.
+   NB - if you are plugging a USB drive into your router, I recommend that it is formatted to the `ext4` file system.  Some users have tried other formatting schemes and have gotten messages about a `read-only file system error`.  I am currently using `ext4` and not experiencing any difficulties... I did have occasional difficulties when I used `ext2`.
 
-3) you are familiar with the tools necessary to update files and run commands on your router.  Personally, I have a Windows laptop and use `winSCP` for copying/moving files (http://winscp.net) and `Putty` for running commands on the router (http://www.putty.org/).  When I edit the files, I use Notepad++ (http://notepad-plus-plus.org/).  There are a number of other suitable tools but those are the ones that I prefer.
+3) you are familiar with the tools necessary to update files and run commands on your router.  Personally, I have Windows-based machines and use `winSCP` for copying/moving files (http://winscp.net) and `Putty` for running commands on the router (http://www.putty.org/).  When I edit the files, I use Notepad++ (http://notepad-plus-plus.org/).  There are a number of other suitable tools but these are the ones that I use and prefer.
  
    NB - see the KNOWN ISSUES section below because a number of text editors can cause problems!
 
@@ -39,40 +39,21 @@ After downloading and expanding the most recent YAMon archive (from http://www.d
 
 1. Copy the contents of the Setup folder to your router (by default to `/opt/YAMon2/Setup`)
 
-2. Review the parameters in `default config.file` to make sure that they're consistent with your setup... in particular, make sure that the value of `_ispBillingDay` is equal to the date on which your ISP resets your monthly totals.  If you do not have a usage cap, set this value to 1 (or any other number between 1 & 31).  
+2. Make sure that `setup.sh` has execute permissions
 
-Make all necessary changes and then save the file as `config.file` 
-
-3. Make sure that `yamon2.sh`, `yamon.startup`, and `yamon.shutdown` (and any other *sh files) all have execute permissions
+3. Run `setup.sh` (e.g., by launching PuTTY and entering `/opt/YAMon2/Setup/setup.sh`). This script will walk you through the process of setting the proper parameters in your config.file, will set necessary permissions, and, optionally, launch `yamon2.3.0.sh`.
 
 *********************************
 *  If you are installing YAMon for the first time, ignore steps #4 & 5 below.
 *********************************
 
-4. [optional] If you are updating from a 1.x version of YAMon (boy are you way behind!), you must run the `convert.sh` script to convert your old hourly and monthly data files from the v1 format to the v2 format.  If you are updating from a 2.x version, ignore this step.
+4. If you are finally getting around to updating from a 1.x version of YAMon (boy are you way behind!), you must run the `convert.sh` script to convert your old hourly and monthly data files from the v1 format to the v2 format.  If you are updating from a 2.x version, ignore this step.
         
-5. If you are updating from a 2.x version and want to enable the new `_organizeData` parameter in `config.file`, you will have to run the `organize.sh` script (which means that you must also give that file execute permissions... see #3 above).
-
+5. If you are updating from a 2.x version and want to enable the new `_organizeData` parameter in `config.file`, you will have to run the `organize.sh` script 
 
 You are now ready to run the script!
 
-
-6. Launch YAMon by entering `/opt/YAMon2/Setup/yamon2.sh` (without the quotes) in a Putty window or on the Administration-->Commands tab in your router's web GUI
-  
-7. Stop the script by running `/opt/YAMon2/Setup/yamon2.sh --stop` (without the quotes) in a Putty window or on the Administration-->Commands tab in your router's web GUI
-
-8. To ensure that things properly start and stop when/if your router restarts, copy the contents of `yamon.startup` and `yamon.shutdown` to your router's Administration-->Commands tab and save them as Startup and Shutdown scripts
-Note:  I've added a `sleep 10` statement in the `yamon.startup` script... at least one user found that their log/data files were being created with date `1970...` if that delay was not included.  Depending on your router, you may have to adjust the length of this delay.  
-
-9. By default, the `yamon2.sh` script automatically create all necessary folders and data files.  
-
-   NB - I *STRONGLY* recommend that you enable the new `_symlink2data` option in `config.file` as this eliminates the need for the
-   script to copy and update the files in the `/tmp/www/data` directory (thereby lessening the load on your router).
-   The instructions below assume that the _symlink2data option is enabled
-
-10. Note that debug logging is enabled by default in `config.file` (see `_enableLogging`... set this value to 0 to disable logging).  Another alternative is to leave _enableLogging=1 and change the _loglevel value to 2 (so that just serious error conditions are included in the log); set the value to `-1` to get very detailed information in the logs (but be aware that these files get big fast!).  
-
-11. Similarly, the script will make daily backups of your files if `_doDailyBU` is set to 1; change the value to 0 to disable this option.  To reduce the amount of disk space consumed by the backups, set `_tarBUs=1`
+6. If you did not automatically launch the script in step #3 above, you can do so by entering `/opt/YAMon2/Setup/yamo2.startup` in a PuTTY window.  You stop the script by entering `/opt/YAMon2/Setup/yamon.shutdown`
 
 `killmasta93` (I don't pick the user names!) has created a more detailed installation tutorial. See http://www.dd-wrt.com/phpBB2/viewtopic.php?p=954980 for the forum thread or for https://www.mediafire.com/?b488czq0xg242cg for the actual tutorial. 
 
@@ -197,18 +178,19 @@ DISCLOSURE
 ----------
 By default, the standard YAMon reports which you are adding to your router contain references JavaScript (JS) and Cascading Style Sheet (CSS) files that are hosted at my domain (http://usage-monitoring.com).  My ISP provides me with visitor traffic reports which that means that I get anonymous usage statistics relating to this content.
 
-A number of users have raised this as a legitimate (yet, IMHO, unfounded) privacy/web tracking concern.  To address this concern, I  
+A number of users have raised this as a legitimate (yet, IMHO, unfounded) privacy/web tracking concern.  To address this, I  
 1. am making sure that everyone is aware that some files are hosted at my domain and that I get usage statistics from my ISP, and 
 2. have added an optional parameter to 'config.file' that will copy the files to your router so that you can host the files locally on your router.
 
-Why do I host the JS and CSS files?  First and foremost because it allows me to make corrections and updates to the reports in a much faster fashion.  I also do not have to create a new zip archive for every update and I do not have take as much time to craft update notifications in the DD-WRT forum.  It also means that:
+Why do I host the JS and CSS files?  
+First and foremost because it allows me to make corrections and updates to the reports in a much faster fashion.  I do not have to create a new zip archive for every update and I do not have take as much time to craft update notifications in the DD-WRT forum.  It also means that:
 - less space is required on your router to store these files
 - you always see the latest/greatest version of the reports, and
 - you only have to update your router when there are changes within the bash scripts (which is becoming increasingly infrequent). 
 
 As indicated above, my ISP provides me with anonymous usage information (typical of any web server).  I do get ISP addresses but more often than not, those are internal - e.g., 192.168.1.1, etc.  The server logs do *NOT* give any information about your yamon configuration, the internal workings of your router or the traffic on your network... and quite honestly, if I was really interested in gathering that info, it'd be far more efficient/effective if I hid that functionality in the bash script on your router rather than in a JavaScript file on an external server.  (And I stress that I *HAVE* not done that!) 
 
-Please note that I also use two other external JavaScript libraries in the reports - jQuery (for general dynamic functionality) and the Google Visualize libraries (for the graphs and gauges).  Rest assured that at least one of those two organizations has access to far better tracking technology than what I get from my ISP.
+Please note that I also use other external JavaScript libraries in the reports - in particular, jQuery (for general dynamic functionality) and the Google Visualize libraries (for the graphs and gauges).  Rest assured that at least one of those two organizations has access to far better tracking technology than what I get from my ISP.
 
 I am not trying minimize these concerns... they are legitimate. But please trust me, when I say that I'm not hosting the content because I want to track your usage in any way.
 

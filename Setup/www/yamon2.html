@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html>
 	<head>
 		<meta http-equiv="cache-control" content="no-cache" />
@@ -10,8 +10,8 @@
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 		<script type="text/javascript" src="./js/config.js"></script>
 		<script type="text/javascript">
-			var html_template='2.2.5'
-			var args=window.location.search.replace('?','').split('&'),ver=args[1]||'2.2',domain='',path=''
+			if(typeof(_file_version)=='undefined')_file_version=2.3
+			var args=window.location.search.replace('?','').split('&'),ver=args[1]||_file_version,domain='',path=''
 			if(typeof(_doLocalFiles)=='undefined'||_doLocalFiles=='0'){
 				path = (args[0] || 'current') + '/'
 				domain = 'http://usage-monitoring.com/'
@@ -25,13 +25,14 @@
 		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script>
 		<script type="text/javascript" src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 		<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-		<script type="text/javascript" src="http://modernizr.com/downloads/modernizr-latest.js"></script>
+		<!--script type="text/javascript" src="http://modernizr.com/downloads/modernizr-latest.js"></script-->
 		<script type="text/javascript">
 			document.write('<' + 'script src="' + domain + path + 'js/util' + ver+ '.js"><' + '/script>')
 			document.write('<' + 'script src="' + domain + path + 'js/yamon' + ver + '.js"><' + '/script>')
 			if(typeof(_settings_pswd)!='undefined') document.write('<' + 'script src="' + domain + path + 'js/jquery.md5.min.js"><' + '/script>')
 			google.load('visualization','1.0',{'packages':['corechart']})
 			google.load('visualization','1.0',{'packages':['gauge']})
+			//$.ajaxSetup({'cache':true});
 		</script>
 
 		<link rel="stylesheet" type="text/css" href="css/custom.css"/>
@@ -40,17 +41,17 @@
 	<noscript class='alert'>This web application makes extensive use of JavaScript.  You must either enable JavaScript in your current browswer or upgrade to a JavaScript capable browser.</noscript>
 		<div class='loading-wrapper hidden a-c p-a'>
 			<div class='loading p-a'>
-				<span id='splash'></span>
+				<span id='splash' class='p-r'><span class="verno"></span></span>
 				<h1>Loading...</h1>
 			</div>
 		</div>
 		<div id="wrapper" class='p-r'>
 			<div id="PageHeader" class='p-r'>
-				<h1>Yet Another Monitor <span id='yamon_version'></span></h1>
+				<h1>Yet Another Monitor</h1>
 				<p id='p-timer' class='p-a'>Refreshing in:&nbsp;<span class="RefreshInterval">120</span> sec.
 					<span class='btn' title='Pause the refresh timer' id="StartPause"></span>
-					<span class='btn' title='Reset the refresh timer'  id="Reset"></span>
-					<span title='Refresh now!'  id="Refresh"></span>
+					<span class='btn' title='Reset the refresh timer' id="Reset"></span>
+					<span class='btn' title='Refresh now!' id="Refresh"></span>
 				</p>
 			</div>
 			<div id='error-notification' class='p-a'>
@@ -77,10 +78,12 @@
 				<article id='devices-tab' class='settings-tab btn' title='Open the Devices tab'></article>
 				<article id='acses-tab' class='settings-tab btn' title='Open the Access Restrictions tab'></article>
 				<article id='settings-tab' class='settings-tab btn' title='Open the Settings tab'></article>
+				<article id='alert-tab' class='settings-tab alert-icon btn' title='Uh-oh... something's gone wrong!'></article>
 				<article id='help-tab' class='settings-tab btn p-a' title='Get Help!'></article>
 			</section>
 			<section id='main-body'>
 
+				<!--span class='alert-icon btn p-a hidden'></span-->
 				<div class='intro tab-div p-r hidden'>
 					<h1>Welcome to the `<i>Yet Another Monitor</i>` reports...</h1>
 					<p>The good news is that you've gotten to this page so you've gotten everything installed properly!</p>
@@ -100,6 +103,7 @@
 				</div>
 
 				<div id="summary-tab-section" class="tab-div hidden p-r">
+
 					<form class='p-a _detanod btn' action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" title="Thank you very much for your support!">
 						<input type="hidden" name="cmd" value="_donations">
 						<input type="hidden" name="business" value="al@caughey.ca">
@@ -108,10 +112,8 @@
 						<input type="hidden" name="currency_code" value="CAD">
 						<input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHosted">
 					</form>
-
-					<h1>Summary Report</h1>
+					<h2>Summary Report</h2>
 					<div class='sp-sldr p-r'>
-						<span class='alert-icon btn p-a hidden'></span>
 						<p class="p-report-interval">
 							<span class='rs-date a-r pre-btn'></span><span class='sp-current-date'><span class='current-date'></span></span><span class='re-date a-l post-btn'></span>
 						</p>
@@ -132,60 +134,60 @@
 					<section class='main-section'>
 						<table id='SummaryUsageTable' class='lc'>
 							<tr>
-								<th class='br'colspan=3>Traffic Summary</th>
+								<th class='br bl bt' colspan=3>Traffic Summary</th>
 							</tr>
 							<tr>
-								<th class='br'></th>
+								<th class='br bl'></th>
 								<th class='a-c br' title='Current Report Date'>Current Date</th>
 								<th class='a-c br' title='Current Report Interval'>Current Interval</th>
 							</tr>
 							<tr>
-								<td class='a-r fw-b br'>Downloads:</td>
+								<td class='a-r fw-b br bl'>Downloads:</td>
 								<td id='st-d-db' class='btn num a-c br downloads'></td>
 								<td id='st-i-db' class='btn num a-c br downloads'></td>
 							</tr>
 							<tr>
-								<td class='a-r fw-b br'>Uploads:</td>
+								<td class='a-r fw-b br bl'>Uploads:</td>
 								<td id='st-d-ub' class='btn num a-c br uploads'></td>
 								<td id='st-i-ub' class='btn num a-c br uploads'></td>
 							</tr>
 							<tr>
-								<td class='a-r fw-b br'>Total:</td>
+								<td class='a-r fw-b br bl'>Total:</td>
 								<td id='st-d-tb' class='btn num a-c br tByts'></td>
 								<td id='st-i-tb' class='btn num a-c br tByts'></td>
 							</tr>
 							<tr>
-								<th class='br'colspan=3>Server Stats</th>
+								<th class='br bt bl' colspan=3>Server Stats</th>
 							</tr>
 							<tr>
-								<td class='a-r fw-b br' id='sp-uptime'>Uptime:</td>
+								<td class='a-r fw-b br bl' id='sp-uptime'>Uptime:</td>
 								<td id='uptime' class='a-c br' colspan=2>n/a</td>
 							</tr>
 							<tr>
-								<td class='a-r fw-b br'>Load:</td>
+								<td class='a-r fw-b br bl'>Load:</td>
 								<td id='serverload' class='br p-r' colspan=2>
 									<p class='' id='sp_curSL'></p>
 									<p><span class='gradient'></span></p>
 									<p class=''><span id='sp_minSL' class='p-a'></span><span id='sp_maxSL' class='p-a'></span></p></td>
 							</tr>
 							<tr>
-								<td class='a-r fw-b br'>Free Memory:</td>
+								<td class='a-r fw-b br bl'>Free Memory:</td>
 								<td class='a-c br' colspan=2><span id='sp-freeMem'>0</span> bytes</td>
 							</tr>
 							<tr>
-								<td class='a-r fw-b br'>Memory &amp; Disk Utilization:</td>
+								<td class='a-r fw-b br bl'>Memory &amp; Disk Utilization:</td>
 								<td id='gauges' class='a-c br' colspan=2></td>
 							</tr>
 							<tr>
-								<th class='br'colspan=3>Devices &amp; Groups Summary</th>
+								<th class='br bt bl' colspan=3>Devices &amp; Groups Summary</th>
 							</tr>
 							<tr>
-								<td class='a-r fw-b br'># Devices Online:</td>
+								<td class='a-r fw-b br bl'># Devices Online:</td>
 								<td id='ds-olt' class='btn a-c br'>n/a</td>
 								<td id='ds-oli' class='btn a-c br'>n/a</td>
 							</tr>
 							<tr>
-								<td rowspan=3 class='a-r fw-b br'>Busiest Devices:</td>
+								<td rowspan=3 class='a-r fw-b br bl'>Busiest Devices:</td>
 								<td class='g2dr btn br a-c'>
 									<span id='st-d-tdn0'></span> (<span id='st-d-tdv0' class='num tByts'></span>)
 								</td>
@@ -210,7 +212,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td rowspan=3 class='a-r fw-b br'>Busiest Groups:</td>
+								<td rowspan=3 class='a-r fw-b br bl'>Busiest Groups:</td>
 								<td rowspan=3 id='st-d-tgn' class='a-c br'>n/a</td>
 								<td class='g2gr btn br a-c'>
 									<span id='st-i-tgn0'></span> (<span id='st-i-tgv0' class='num tByts'></span>)
@@ -227,7 +229,7 @@
 								</td>
 							</tr>
 							<tr>
-								<td class='a-r fw-b br'>New Devices:</td>
+								<td class='a-r fw-b br bl'>New Devices:</td>
 								<td id='ds-att' class='a-c br'>n/a</td>
 								<td id='ds-ati' class='a-c br'>n/a</td>
 							</tr>
@@ -254,21 +256,22 @@
 							<table class='info-top p-r' id="SystemTotalsTable">
 								<thead>
 									<tr class='info-p p-r'>
-										<th class='st-i br' rowspan=2>
+										<th class='st-i br bt bl' rowspan=2>
 											Interval
 											<span class='info-w p-a'>
 												<span class='info btn'></span>
+												<span class='ts btn'></span>
 											</span>
 										</th>
-										<th colspan=2 class='st-un br'>
+										<th colspan=2 class='st-un br bt'>
 											<span class='table-units' rel-value='auto'>Auto</span>
 											<span class='table-units' rel-value='3'>GB</span>
 											<span class='table-units' rel-value='2'>MB</span>
 											<span class='table-units' rel-value='1'>KB</span>
 										</th>
-										<th class='st-t tot-dlo br' rowspan=2>Total</th>
-										<th class='st-c is-cap br2' rowspan=2>% of <span id="spUsageCap" class='imp-text'>Not Set... see 'Settings' tab</span> Cap</th>
-										<th class='st-pt a-c br' rowspan=2>
+										<th class='st-t tot-dlo br bt' rowspan=2>Total</th>
+										<th class='st-c is-cap br2 bt' rowspan=2>% of <span id="spUsageCap" class='imp-text'>Not Set... see 'Settings' tab</span> Cap</th>
+										<th class='st-pt a-c br bt' rowspan=2>
 											Projected<br/>Total
 										</th>
 									</tr>
@@ -283,12 +286,13 @@
 												<p class='info-d'>Click any date in the `Interval` column to load the data for that month </p>
 												<p class='info-d'>If the totals for an interval are not correct, click the interval date to reload &amp; re-calculate that month's totals. Otherwise, check your data files </p>
 												<p class='info-d'>To delete a row from the table, click <span class='dhe'></span> in the `Projected Total` column</p>
-												<p class='info-d'>To add a row to the bottom of the table, click <span class='add-h'></span> below the table</p>
+												<p class='info-d'>To add a row to the bottom of the table, click <span class='ts btn'></span></p>
+												<p class='ts-d'><span class="add-h btn" title="Add another interval"></span>Add a totals for an earlier interval</p>
 											</div>
 										</td>
 									</tr>
 									<tr id="blank-summary-row" class='hidden'>
-										<td class="st-i br"><span class="interval a-c"/></td>
+										<td class="st-i br bl"><span class="interval a-c"/></td>
 										<td class="downloads st-d num"/>
 										<td class="uploads st-u num br"/>
 										<td class="tByts st-t num br"/>
@@ -299,8 +303,6 @@
 								<tbody>
 								</tbody>
 							</table>
-							<span class="add-h btn" title="Add another interval"></span>
-
 							<div id="UsageGraph" class=""></div>
 						</article>
 					</section>
@@ -314,32 +316,31 @@
 						<input type="hidden" name="currency_code" value="CAD">
 						<input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHosted">
 					</form>
-					<h1>Daily Usage Report</h1>
+					<h2>Daily Usage Report</h2>
+					<div class='sp-sldr p-r'>
+						<p class="p-report-interval">
+							<span class='rs-date a-r pre-btn'></span><span class='sp-current-date'><span class='current-date'></span></span><span class='re-date a-l post-btn a-l'></span>
+						</p>
+						 <p class="p-report-date">
+							<span class='pre-btn a-r'>
+								<button class='pmBtn' title='Go to the first day of the previous interval' type='button'></button>
+								<button class="fDBtn" title="Go to the first day of this interval" type="button"></button>
+								<button class="pDBtn" title="Go to the previous day in this interval" type="button"></button>
+							</span>
+							<span class="report-date"></span>
+							<span class='post-btn a-l'>
+								<button class="nDBtn" title="Go to the next day in this interval" type="button"></button>
+								<button class="lDBtn" title="Go to the last day of this interval" type="button"></button>
+								<button class='nmBtn' title='Go to the first day of the next interval' type='button'></button>
+							</span>
+						</p>
+					</div>
 					<section class='main-section'>
 						<article class='lc'>
-							<div class='sp-sldr p-r'>
-								<p class="p-report-interval">
-										<span class='rs-date a-r pre-btn'></span><span class='sp-current-date'><span class='current-date'></span></span><span class='re-date a-l post-btn a-l'></span>
-								</p>
-								 <p class="p-report-date" >
-									<span class='pre-btn a-r'>
-										<button class='pmBtn' title='Go to the first day of the previous interval' type='button'></button>
-										<button class="fDBtn" title="Go to the first day of this interval" type="button"></button>
-										<button class="pDBtn" title="Go to the previous day in this interval" type="button"></button>
-									</span>
-									<span class="report-date"></span>
-									<span class='post-btn a-l'>
-										<button class="nDBtn" title="Go to the next day in this interval" type="button"></button>
-										<button class="lDBtn" title="Go to the last day of this interval" type="button"></button>
-										<button class='nmBtn' title='Go to the first day of the next interval' type='button'></button>
-									</span>
-								</p>
-							</div>
-
 							<table class='info-top p-r data-table' id='Daily-usage-table'>
 								<thead id="DailyUsageHeader">
 									<tr class='info-p p-r'>
-										<th class='br' rowspan=2>
+										<th class='br bl bt' rowspan=2>
 											<p class='u-d btn'><span class='d-ng'></span> Groups / <span class='d-nd'></span> Devices</p>
 												<span id='c-h_sd' class='p-r'>
 													<span id='h_sd' class='checked c-p' title='Click to hide/show devices in the hourly chart below'></span>
@@ -347,7 +348,7 @@
 													<span id='h_sd-ddl' class='p-a hidden'></span>
 												</span>
 										</th>
-										<th class='br no-bb' colspan=2>
+										<th class='br no-bb bt' colspan=2>
 											<span class='table-units' rel-value='auto'>Auto</span>
 											<span class='table-units' rel-value='3'>GB</span>
 											<span class='table-units' rel-value='2'>MB</span>
@@ -355,10 +356,11 @@
 											<br/>
 											All Day</th>
 										<th class='isUL ul-int br no-bb' colspan=2>Unlimited Interval</th>
-										<th class='th-tot br2' rowspan=2>Total</th>
-										<th class='br' rowspan=2>
+										<th class='th-tot br2 bt' rowspan=2>Total</th>
+										<th class='br bt' rowspan=2>
 											<span class='info-w p-a'>
 												<span class='info btn'></span>
+												<span class='ts btn'></span>
 											</span>
 											Percent
 										</th>
@@ -373,20 +375,29 @@
 										<td class='info-td p-a' colspan=100%>
 											<div class='info-s p-r hidden' >
 											<span class='close btn p-a'></span>
-											<p class='info-d'>The hourly usage file was updated:<span id='sp_hourly_updated' class='imp-text'></span></p>
-											<hr class='info-d'/>
+											<p class='info-d'>The hourly usage file was updated:<span id='sp_hourly_updated' class='imp-text'></spalass='info-d'/>
 											<p class='info-d'>Click a `group` or `device` name to see the data usage by date on the `Monthly Breakdown` tab</p>
 											<p class='info-d'>Click <span class="item-e"></span> to the left of a `group` name to expand or collapse the devices in that group.  This will adjust the display of the 	 beside and below this table</p>
 											<p class='info-d'>Click <span class="legend-colour" style="background-color:MediumAquaMarine"></span> to the left of a `device` name to include or exclude that device in the 	</p>
-											<p class='info-d'>Double-click anywhere in the row to show just that device in the 	</p>
+											<p class='info-d'>Double-click anywhere in the row to show just that device in the hourly usage chart</p>
 											<p class='info-d'>Go to the `Devices` tab to alter the name of a device or its group association</p>
-
-											<p class='ts-d'></p>
+											<p class='info-d'>If you are missing data in the report, click <span class='ts btn'></span> to add a correction</p>
+											<p class='info-d is-isp'>Also, click <span class='ts btn'></span> to add usage date from your ISP</p>
+											<p class='ts-d'>Add a `correction` if you've accidentally stopped YAMon or if things went haywire and you are missing data in the reports.</p>
+											<p class='ts-d'>
+												<input type="text" id="cf-desc" placeholder='Reason for correction' title='Enter a brief reason for the correction'>
+												<input class='a-r cf-d' type="text" id='cf-d' name="cf-d" placeholder='Down' title='Enter missing downloads in MB'>
+												<input class='a-r cf-u' type="text" id='cf-u' name="cf-u" placeholder='Up' title='Enter missing uploads in MB'> MB
+												<button id='remove-correction' class='btn'onclick='removecorrection()' title='Click to delete this correction'>Remove correction</button>.
+											</p>
+											<p class='ts-d is-isp'>Enter your ISP usage data:<br/>
+												&nbsp;&nbsp;Downloads: <input class='i-isp a-r' type="text" id="d-isp-d" placeholder='Down'>&nbsp;&nbsp;/&nbsp;&nbsp;Uploads: <input class='i-isp a-r' type="text" id="d-isp-u" placeholder='Up'> MB
+											</p>
 											</div>
 										</td>
 									</tr>
 									<tr id="blank-group-row" class="hidden">
-										<td class="br td-un">
+										<td class="td-un br bl">
 											<span class="item-e"></span>
 											<span class="userName"></span>
 										</td>
@@ -398,7 +409,7 @@
 										<td class="percent br"/>
 									</tr>
 									<tr id="blank-device-row" class="hidden">
-										<td class="deviceName br"/>
+										<td class="deviceName br bl"/>
 											<span class="legend-colour" title='Click to add/remove this device from the graphs'></span>
 											<span class="thedevice"></span>
 										</td>
@@ -413,12 +424,11 @@
 								<tbody id="DailyData"> </tbody>
 								<tfoot>
 									<tr id="correction-row" class='hidden'>
-										<td class="a-r br"><input type="text" class="cf-desc" placeholder='Reason for correction'></td>
-										<td class="cf-d a-r MBytes">
-											<input class='a-r' type="text" value="0" name="cf-d">
+										<td class="cf-desc a-r br bl">
 										</td>
-										<td class="cf-u a-r br MBytes">
-											<input class='a-r' type="text" value="0" name="cf-u">
+										<td class="cf-d a-r MBytes num">
+										</td>
+										<td class="cf-u a-r br MBytes num">
 										</td>
 										<td class="isUL"></td>
 										<td class="isUL br"></td>
@@ -426,7 +436,7 @@
 										<td class="br a-c percent">-</td>
 									</tr>
 									<tr id="DailyFooter">
-										<td class="a-r br">
+										<td class="a-r br bl">
 											<button type="button" class="pDBtn" title='Go to the previous day in this interval'></button>
 											:::Totals:::
 											<button type="button" class="nDBtn" title='Go to the next day in this interval'></button>
@@ -439,7 +449,7 @@
 										<td class="a-c percent br"></td>
 									</tr>
 									<tr id="RouterFooter">
-										<td class="a-r br">Measured @ Router:</td>
+										<td class="a-r br bl">Measured @ Router:</td>
 										<td class="downloads num"></td>
 										<td class="uploads num br"></td>
 										<td class="isUL a-c">-</td>
@@ -448,7 +458,7 @@
 										<td class="a-c percent br">-</td>
 									</tr>
 									<tr id="DiffFooter">
-										<td class="a-r br">Difference:</td>
+										<td class="a-r br bl">Difference:</td>
 										<td class="downloads num"></td>
 										<td class="uploads num br"></td>
 										<td class="isUL a-c">-</td>
@@ -457,7 +467,7 @@
 										<td class="a-c percent br">-</td>
 									</tr>
 									<tr id="PercentFooter">
-										<td class="a-r br">Percent:</td>
+										<td class="a-r br bl">Percent:</td>
 										<td class="downloads percent"></td>
 										<td class="uploads percent br"></td>
 										<td class="isUL a-c">-</td>
@@ -466,18 +476,18 @@
 										<td class="a-c br">-</td>
 									</tr>
 									<tr id="daily-isp-row" class='is-isp'>
-										<td class="a-r br">
+										<td class="a-r br bl">
 											<span class="isp-name">ISP</span> Totals:
 										</td>
-										<td class="a-r MBytes"><input class='i-isp a-r' type="text" value="0" id="d-isp-d"></td>
-										<td class="a-r br MBytes"><input class='i-isp a-r' type="text" value="0" id="d-isp-u"></td>
+										<td class="a-r MBytes num d-isp-d"></td>
+										<td class="a-r br MBytes num d-isp-u"></td>
 										<td class="isUL"></td>
 										<td class="isUL br"></td>
 										<td class="tByts num a-r br2 bytes" value="0">0</td>
 										<td class="br a-c percent">-</td>
 									</tr>
 									<tr id="daily-isp-diff" class='is-isp'>
-										<td class="a-r br">Difference:</td>
+										<td class="a-r br bl">Difference:</td>
 										<td class="downloads num"></td>
 										<td class="uploads num br"></td>
 										<td class="isUL a-c">-</td>
@@ -486,7 +496,7 @@
 										<td class="a-c percent br">-</td>
 									</tr>
 									<tr id="daily-isp-percent" class='is-isp'>
-										<td class="a-r br">Percent:</td>
+										<td class="a-r br bl">Percent:</td>
 										<td class="downloads percent"></td>
 										<td class="uploads percent br"></td>
 										<td class="isUL a-c">-</td>
@@ -496,25 +506,20 @@
 									</tr>
 							   </tfoot>
 							</table>
-							<p id='add-correction'><button onclick='addcorrection()'>Add correction</button>... use this feature if you've accidentally stopped the monitor or if things went haywire.</p>
-							<p id='remove-correction' class='hidden'><button onclick='removecorrection()'>Remove correction</button>... click to delete this correction.</p>
-
 						</article>
 						<article class='rc'>
 							<div id="DailyGraph" class=""></div>
 						</article>
 
 					</section>
-					<div id="hourlyGraph" class="	">Hourly Data Graph</div>
+					<div id="hourlyGraph" class="p-r">Hourly Data Graph</div>
 					<p id='bnav' class='p-r'>
 						<button type="button" id="bpDBtn" class='pDBtn' title='Go to the previous day in this interval'></button>
 						<button type="button" id="bnDBtn" class='nDBtn' title='Go to the next day in this interval'></button>
 						<button type="button" class='go2today hidden' title="Click to return to today's date">Today</button>
 					</p>
-					<div id="hourlyDiffGraph" class="	">Hourly Differences Graph</div>
-
+					<div id="hourlyDiffGraph">Hourly Differences Graph</div>
 					<div id="hourlyLoadGraph">Hourly Server Loads Graph... coming soon</div>
-
 				</div>
 				<div id="monthly-tab-section" class="tab-div p-r hidden">
 					<form class='p-a _detanod btn' action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" title="Thank you very much for your support!">
@@ -526,29 +531,30 @@
 						<input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHosted">
 					</form>
 
-					<h1>Monthly Usage Report</h1>
-					<p>Report for: <span class='current-interval imp-text'></span></p>
+					<h2>Monthly Usage Report</h2>
 					<section class='main-section'>
 						<article class='lc'>
+							<p>Report for: <span class='current-interval imp-text'></span></p>
 							<table class='info-top p-r' id='Monthly-usage-table'>
 							<thead id="MonthlyHeader">
 								<tr class='info-p p-r'>
-									<th class='br' rowspan=2>
+									<th class='br bl bt' rowspan=2>
 									<span class='u-d btn'><span class='m-ng'></span> Groups / <span class='m-nd'></span> Devices</span>
 									</th>
-									<th class='br no-bb' colspan=2>
+									<th class='br no-bb bt' colspan=2>
 										<span class='table-units' rel-value='auto'>Auto</span>
 										<span class='table-units' rel-value='3'>GB</span>
 										<span class='table-units' rel-value='2'>MB</span>
 										<span class='table-units' rel-value='1'>KB</span>
 										<br/>
 										All Day</th>
-									<th class='isUL ul-int br no-bb' colspan=2>Unlimited Interval</th>
-									<th class='th-tot br2' rowspan=2>Total</th>
-									<th class='br' rowspan=2>Percent
+									<th class='isUL ul-int br no-bb bt' colspan=2>Unlimited Interval</th>
+									<th class='th-tot br2 bt' rowspan=2>Total</th>
+									<th class='br bt' rowspan=2>
 										<span class='info-w p-a'>
 											<span class='info btn'></span>
 										</span>
+										Percent
 									</th>
 								</tr>
 								<tr>
@@ -568,7 +574,7 @@
 							<tbody id="MonthlyData"></tbody>
 							<tfoot>
 								<tr id="mcorrection-row" class='hidden is_d'>
-									<td class="a-r br">Corrections</td>
+									<td class="a-r br bl">Corrections</td>
 									<td class="cfv downloads num a-r"></td>
 									<td class="cfv uploads num a-r br"></td>
 									<td class="isUL"></td>
@@ -577,7 +583,7 @@
 									<td class="br a-c percent">-</td>
 								</tr>
 								<tr id="MonthlyFooter">
-									<td class="a-r br">:::Totals:::</td>
+									<td class="a-r br bl">:::Totals:::</td>
 									<td class="downloads num"></td>
 									<td class="uploads num br"></td>
 									<td class="isUL ul-down num"></td>
@@ -586,7 +592,7 @@
 									<td class="a-c percent br"></td>
 								</tr>
 								<tr id="monthly-isp-row" class='is-isp'>
-									<td class="a-r br"><span class="isp-name">ISP</span> Totals: </td>
+									<td class="a-r br bl"><span class="isp-name">ISP</span> Totals: </td>
 									<td class="a-r num" id="m-isp-d"></td>
 									<td class="a-r br num" id="m-isp-u"></td>
 									<td class="isUL"></td>
@@ -601,7 +607,7 @@
 							<div id="MonthlyGraph"></div>
 							<div id="UnlimitedGraph" class="isUL"></div>
 						</article>
-				   </section>
+					</section>
 					<div id="MonthlyGraphbyDevice"></div>
 					<div id="MonthlyGraphbyOwner"></div>
 				</div>
@@ -616,81 +622,81 @@
 						<input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHosted">
 					</form>
 
-					<h1>Monthly Usage Breakdown</h1>
-					<p>Report for: <span class='current-interval imp-text'></span></p>
-					<p>Filter data by Group or Device:&nbsp;
-						<select name="MonthlyBreak" id="mb-filter">
-							<option value="ALL" selected>ALL Traffic By Day</option>
-						</select>
-					</p>
-					<table class='info-top p-r' id='Monthly-breakdown-table'>
-						<thead id="MonthlyBreakdownHeader">
-							<tr class='info-p p-r'>
-								<th rowspan=3 class='br'>
-									Date
-								</th>
-								<th id='mb-router-th' colspan=4 class='br2'>Router (units as indicated)
-									<span class='info-w p-a'>
-										<span class='info btn'></span>
-									</span>
-								</th>
-								<th colspan=4 class='is-isp br2'><span class='isp-name'></span> (units as indicated) <a class='isp-url' target='_blank'>Link</a></th>
-								<th colspan=4 class='is-rd br'>
-									Measured @ Router
-								</th>
-							</tr>
-							<tr>
-								<th colspan=2 class='br'>
-									<span class='table-units' rel-value='auto'>Auto</span>
-									<span class='table-units' rel-value='3'>GB</span>
-									<span class='table-units' rel-value='2'>MB</span>
-									<span class='table-units' rel-value='1'>KB</span>
-									<br/>
-									All Day</th>
-								<th colspan=2 class='isUL ul-int br'>Unlimited</th>
-								<th class='th-tot br' rowspan=2>Total</th>
-								<th class='br2' rowspan=2>Agg.</th>
-								<th colspan=4 class='is-isp br2 info-p p-r'>
-									<span id='isp_details' class='ddp btn ddp-t sel'>Totals</span> /
-									<span id='isp_diff' class='ddp btn ddp-d'>Differences</span> /
-									<span id='isp_percent' class='ddp btn ddp-p'>Percent</span>
-								</th>
-								<th colspan=4 class='is-rd br info-p p-r'>
-									<span id='rd_details' class='ddp btn ddp-t sel'>Totals</span> /
-									<span id='rd_diff' class='ddp btn ddp-d'>Differences</span> /
-									<span id='rd_percent' class='ddp btn ddp-p'>Percent</span>
-								</th>
-							</tr>
-							<tr>
-								<th>Down</th>
-								<th class='br'>Up</th>
-								<th class='isUL'>Downloads</th>
-								<th class='isUL br'>Uploads</th>
-								<th class='is-isp'>Down</th>
-								<th class='is-isp br'>Up</th>
-								<th class='is-isp br'>Total</th>
-								<th class='is-isp br2'>Agg.</th>
-								<th class='is-rd'>Down</th>
-								<th class='is-rd br'>Up</th>
-								<th class='is-rd br2'>Total</th>
-								<th class='is-rd br'>Agg.</th>
-							</tr>
-							<tr class='info-tr hidden'>
-								<td class='info-td p-a' colspan=100%>
-									<div class='info-s p-r hidden' >
-									<span class='close btn p-a'></span>
-									<p class='info-d'><span class='flagged'></span>Indicates that the router was rebooted at least once on the flagged date</p>
-									<p class='info-d'>Click an entry in the `Date` column to view the `Daily Usage` reports for that day</p>
-									<p class='ts-d'></p>
-									</div>
-								</td>
-							</tr>
-						</thead>
-						<tbody id="MonthlyBreakdown"></tbody>
-						<tfoot id="breakdownFooter"></tfoot>
-					</table>
+					<h2>Monthly Usage Breakdown</h2>
+					<section class='main-section'>
+						<p>Report for: <span class='current-interval imp-text'></span></p>
+						<table class='info-top p-r' id='Monthly-breakdown-table'>
+							<thead id="MonthlyBreakdownHeader">
+								<tr class='info-p p-r'>
+									<th id='mb-router-th' colspan=5 class='br bt bl'>YAMon Totals - Filter data:
+										<select name="MonthlyBreak" id="mb-filter">
+											<option value="ALL" selected>ALL Traffic By Day</option>
+										</select>
+										<span class='info-w p-a'>
+											<span class='info btn'></span>
+										</span>
+									</th>
+									<th colspan=4 class='is-isp bl2 br bt'><span class='isp-name'></span> Totals <a class='isp-url' target='_blank'>Link</a></th>
+									<th colspan=4 class='is-rd bl2 br bt'>
+										Measured @ Router
+									</th>
+								</tr>
+								<tr>
+									<th rowspan=2 class='br bl'>
+										Date
+									</th>
+									<th colspan=2 class='br bb1'>
+										<span class='table-units' rel-value='auto'>Auto</span>
+										<span class='table-units' rel-value='3'>GB</span>
+										<span class='table-units' rel-value='2'>MB</span>
+										<span class='table-units' rel-value='1'>KB</span>
+										<br/>
+										All Day</th>
+									<th colspan=2 class='isUL ul-int br bb1'>Unlimited</th>
+									<th class='th-tot br2' rowspan=2>Total</th>
+									<th class='br' rowspan=2>Agg.</th>
+									<th colspan=4 class='is-isp bl2 br bb1'>
+										<span id='isp_details' class='ddp btn ddp-t sel'>Totals</span> /
+										<span id='isp_diff' class='ddp btn ddp-d'>Differences</span> /
+										<span id='isp_percent' class='ddp btn ddp-p'>Percent</span>
+									</th>
+									<th colspan=4 class='is-rd bl2 br bb1'>
+										<span id='rd_details' class='ddp btn ddp-t sel'>Totals</span> /
+										<span id='rd_diff' class='ddp btn ddp-d'>Differences</span> /
+										<span id='rd_percent' class='ddp btn ddp-p'>Percent</span>
+									</th>
+								</tr>
+								<tr>
+									<th>Down</th>
+									<th class='br'>Up</th>
+									<th class='isUL'>Down</th>
+									<th class='isUL br'>Up</th>
+									<th class='is-isp bl2'>Down</th>
+									<th class='is-isp br'>Up</th>
+									<th class='is-isp br2'>Total</th>
+									<th class='is-isp br'>Agg.</th>
+									<th class='is-rd bl2'>Down</th>
+									<th class='is-rd br'>Up</th>
+									<th class='is-rd br2'>Total</th>
+									<th class='is-rd br'>Agg.</th>
+								</tr>
+								<tr class='info-tr hidden'>
+									<td class='info-td p-a' colspan=100%>
+										<div class='info-s p-r hidden' >
+										<span class='close btn p-a'></span>
+										<p class='info-d'><span class='flagged'></span>Indicates that the router was rebooted at least once on the flagged date</p>
+										<p class='info-d'>Click an entry in the `Date` column to view the `Daily Usage` reports for that day</p>
+										<p class='ts-d'></p>
+										</div>
+									</td>
+								</tr>
+							</thead>
+							<tbody id="MonthlyBreakdown"></tbody>
+							<tfoot id="breakdownFooter"></tfoot>
+						</table>
+					</section>
 					<hr/>
-					<h1><span id='graphsfor'></span>  [ <span id='rld-mbd-g' class='btn' onclick="drawGraphs()" title='Re-draw these graphs'></span> ]</h1>
+					<h2><span id='graphsfor'></span>  [ <span id='rld-mbd-g' class='btn' onclick="drawGraphs()" title='Re-draw these graphs'></span> ]</h2>
 					<p class='a-c'><a id='all-	'>All</a> <a id='no-	'>None</a>
 						<label for='cb-down'><input type='checkbox' id='cb-down' class='gr-cb' checked>Downloads</label>
 						<label for='cb-up'><input type='checkbox' id='cb-up' class='gr-cb' checked>Uploads</label>
@@ -724,7 +730,7 @@
 					</form>
 
 				   <div id='enable-lu' class='alert'>To see any meaningful information on this tab, you must set `_doLiveUpdates=1` in `config.file` on your router.</div>
-					<h1>Live Usage Report</h1>
+					<h2>Live Usage Report</h2>
 					<p>The data on this tab is aggregated from the `live_data.js` file and will be updated every <span class='_updatefreq'></span>s.
 
 						<button type="button" id="luStart" class='hidden'>Start</button>
@@ -736,12 +742,12 @@
 						<article class='lc'>
 							<div class='data-table'>
 								<p class='p-hr'>
-									<span class="td-time br a-r">
+									<span class="td-time br bl a-r">
 										Time
 									</span>
 									<span class="td-num a-c">1-minute</span>
 									<span class="td-num a-c">5-minute</span>
-									<span class="td-num a-c">15-minute</span>
+									<span class="td-num a-c br">15-minute</span>
 								</p>
 								<div id="liveServer"> </div>
 							</div>
@@ -762,16 +768,16 @@
 							<table class='info-top p-r' >
 								<thead>
 									<tr class='info-p p-r'>
-										<th class="td-time br a-r" rowspan=2>Time
+										<th class="td-time br bl bt a-r" rowspan=2>Time
 											<span class='info-w p-a'>
 												<span class='info btn'></span>
 												<span class='ts btn'></span>
 											</span>
 										</th>
-										<th class="cu-o a-c" rowspan=2>Group</th>
-										<th class="cu-d a-c br" rowspan=2>Device</th>
-										<th class="a-c br" colspan=2>Downloads</th>
-										<th class="a-c br" colspan=2>Uploads</th>
+										<th class="cu-o bt a-c" rowspan=2>Group</th>
+										<th class="cu-d a-c br bt" rowspan=2>Device</th>
+										<th class="a-c br bt" colspan=2>Downloads</th>
+										<th class="a-c br bt" colspan=2>Uploads</th>
 									</tr>
 									<tr class='info-p p-r'>
 										<th class="td-num a-c">Total</th>
@@ -791,7 +797,7 @@
 											</div>
 									</tr>
 									<tr id='blank-cu' class="p-cu btn hidden">
-										<td class="td-time br a-r"></td>
+										<td class="td-time br bl a-r"></td>
 										<td class="cu-o a-l"></td>
 										<td class="cu-d a-l br"></td>
 										<td class="td-num num cu_do"></td>
@@ -800,7 +806,7 @@
 										<td class="td-num br cu_up_ps"></td>
 									</tr>
 									<tr id='blank-cu-tot' class="p-cu-tot hidden">
-										<td class="td-time br a-l"></td>
+										<td class="td-time br bl a-l"></td>
 										<td class="cu-o a-l"></td>
 										<td class="cu-d a-l br"></td>
 										<td class="td-num cu_do num"></td>
@@ -832,21 +838,16 @@
 							<table class='info-top p-r' id="act-cons">
 								<thead>
 									<tr class='info-p p-r'>
-										<th class='br'>
-											<br/>Con
-										</th>
-										<th>Source
+										<th class='br bl bt'>Con</th>
+										<th class='bt'>Source
 											<span class='info-w p-a'>
 												<span class='info btn'></span>
 												<span class='ts btn'></span>
 											</span>
 										</th>
-										<th class='br'>Port</th>
-										<th id='act-dest'>Destination</th>
-										<th class='br'>
-											Port
-
-										</th>
+										<th class='br bt'>Port</th>
+										<th  class='bt' id='act-dest'>Destination</th>
+										<th class='br bt'>Port</th>
 									</tr>
 									<tr class='info-tr hidden'>
 										<td class='info-td p-a' colspan=100%>
@@ -855,25 +856,24 @@
 												<p class='info-d'>Click any IP address to perform a reverse IP lookup.<br/>Find the  name of the associated organization and their rough geographic location</p>
 												<p class='info-d'>Click <span class="ts"></span> to show/hide local IP addresses and set the local IP range</p>
 
-												<div class='ts=d'>
-													<p class='ts-d'>
-														<label for='show-local' title='Show/hide connections to internal IP addresses in the table'><input type='checkbox' id='show-local'>Show Local IPs</label>
-													</p>
-													<p class='show-local'>
-														Local IPs: <input type='text' placeholder='192.168.1' id='acc-filter-ip' size=7> e.g., 192.168.1, 10.13.15, etc.<br/>
-														NB - 255.255.255.255 is automatically included
-													</p>
-												</div>
+												<p class='ts-d'>
+													<label for='show-local' title='Show/hide connections to internal IP addresses in the table'><input type='checkbox' id='show-local'>Show Local IPs</label>
+												</p>
+												<p class='ts-d show-local'>
+													Local IPs: <input type='text' placeholder='192.168.1' id='acc-filter-ip' size=7> e.g., 192.168.1, 10.13.15, etc.<br/>
+													NB - 255.255.255.255 is automatically included
+												</p>
+												
 												<p id='ip-sync' class='ts-d btn'>Sync IPs with usage-monitoring.com <span class='ip-prog hidden'> &rarr; Imported: <span id='ip-n'></span></span></p>
 											</div>
 										</td>
 									</tr>
 									<tr id='blank-acon-row' class="acon-row hidden">
-										<td class="conn br"></td>
+										<td class="conn br bl"></td>
 										<td class="src-ip a-c"></td>
 										<td class="sprt a-c br"></td>
 										<td class="a-c btn dest-ip"></td>
-										<td class="flag"></td>
+										<td><span class='flag'></span></td>
 										<td class="dprt a-c br"></td>
 									</tr>
 								</thead>
@@ -894,21 +894,19 @@
 						<input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHosted">
 					</form>
 
-					<h1>Groups &amp; Devices</h1>
-					<p>Report for: <span class='current-interval imp-text'></span></p>
-					<section class='main-section'>
+					<h2>Groups &amp; Devices</h2>
+					<section class='main-section p-r'>
+						<p>Report for: <span class='current-interval imp-text'></span></p>
 						<table class='info-top p-r lc' id='devices-table'>
 							<thead id="devicesHeader">
 								<tr class='info-p p-r'>
-									<th>
-										Group
-									</th>
-									<th>Device Name</th>
-									<th>IP Address</th>
-									<th>Mac Address</th>
-									<th class='th-tot br2 click-td'>Total</th>
-									<th class='br2'>Percent</th>
-									<th class='br a-c' colspan=2>
+									<th class='bl bt'>Group</th>
+									<th class='bt'>Device Name</th>
+									<th class='bt'>IP Address</th>
+									<th class='bt'>Mac Address</th>
+									<th class='th-tot bt br2 click-td'>Total</th>
+									<th class='bt br2'>Percent</th>
+									<th class='bt br a-c' colspan=2>
 										Updated
 										<span class='info-w p-a'>
 											<span class='info btn'></span>
@@ -937,7 +935,7 @@
 									</td>
 								</tr>
 								<tr id="blank-devices-row" class="c-p hidden">
-									<td class="group"/>
+									<td class="group bl"/>
 									<td class="deviceName">
 										<span class="legend-colour"></span>
 										<span class="thedevice"></span>
@@ -1326,7 +1324,7 @@
 						<input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHosted">
 					</form>
 
-					<h1>Settings</h1>
+					<h2>Settings</h2>
 					<div id='d-settings_pswd'>
 						<p>The settings are password protected!</p>
 						<p id='p-settings_pswd'>
@@ -1580,10 +1578,9 @@
 				</div>
 
 				<div id="help-tab-section" class="tab-div p-r hidden">
-					<h1>YAMon - Yet Another Monitor</h1>
+					<h2>YAMon - Yet Another Monitor</h2>
 					<h3>By: Al Caughey </h3>
-					<p>Router Script: v<span class='scriptVersion'></span></p>
-					<p>JavaScript: v<span class='jsVersion'></span></p>
+					<p>Version:<span class='scriptVersion'></span></p>
 
 					<hr/>
 					<p>For online help, FAQs, etc. either go to:</p>
@@ -1606,20 +1603,20 @@
 						<input type="hidden" name="currency_code" value="CAD">
 						<input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHosted">
 					</form>
-					<h1>Access Restrictions</h1>
+					<h2>Access Restrictions</h2>
 					<p>Coming soon... </p>
 					<p>A way to define which devices can access the Internet when...</p>
 					<fieldset class='restrictions'>
 						<legend>Access Restrictions</legend>
 						<table id='restrictions-list'>
 							<tr>
-								<th class='rest-name'>Restriction Name</th>
-								<th class='rest-days'>Restricts access on the following days</th>
-								<th class='rest-time'>Between</th>
-								<th class='rest-groups p-r' colspan=2>For<span class='rest-new btn p-a'/></th>
+								<th class='rest-name bt bl'>Restriction Name</th>
+								<th class='rest-days bt'>Restricts access on the following days</th>
+								<th class='rest-time bt'>Between</th>
+								<th class='rest-groups p-r bt br' colspan=2>For<span class='rest-new btn p-a'/></th>
 							</tr>
 							<tr class='edit-restrictions hidden'>
-								<td class='rest-name'>
+								<td class='rest-name bl'>
 									<input type='text' class='rst-name' placeholder='Restriction Name'>
 								</td>
 								<td class='p-cb-top rest-days'>
@@ -1629,8 +1626,8 @@
 											<span class='p-cb-bg p-a'></span>
 											<span class='p-cb-st p-a'></span>
 										</span>
-										Every day or just:
-									</label><hr/>
+										Every day
+									</label> or just:<hr/>
 									<span id='ac-da-l'>
 										<label for='ac-da-1'><input id='ac-da-1' dn='1' class='ac-da' type='checkbox'>Mon</label>
 										<label for='ac-da-2'><input id='ac-da-2' dn='2' class='ac-da' type='checkbox'>Tues</label>
@@ -1649,11 +1646,11 @@
 								<td class='p-cb-top rest-groups'>
 									<label class='p-cb-lbl'>
 										<span id='ac-gp' class='p-cb p-r' mode='except'>
-											<span class='p-cb-bg'></span>
-											<span class='p-cb-st'></span>
+											<span class='p-cb-bg p-a'></span>
+											<span class='p-cb-st p-a'></span>
 										</span>
-										Every Group Except
-									</label><hr/>
+										Every Group
+									</label> Except:<hr/>
 									<span id='ac-gr-l'></span>
 								</td>
 								<td class='rest-btn'>
@@ -1663,18 +1660,18 @@
 								</td>
 							</tr>
 							<tr class='restriction-row'>
-								<td class='rest-name'>Weekend Nights</td>
+								<td class='rest-name bl'>Weekend Nights</td>
 								<td class='rest-days' value='5,6'>Fri, Sat</td>
 								<td class='rest-time'>01:00-07:00</td>
 								<td class='rest-groups' value='al,devices'>All except: Al, Devices</td>
-								<td class='rest-btn btn'></td>
+								<td class='rest-btn btn br'></td>
 							</tr>
 							<tr class='restriction-row'>
-								<td class='rest-name'>School Nights</td>
+								<td class='rest-name bl'>School Nights</td>
 								<td class='rest-days' value='1,2,3,4,7'>Mon, Tues, Wed, Thur, Sun</td>
 								<td class='rest-time'>22:00-07:00</td>
 								<td class='rest-groups' value='al,devices'>All except: Devices</td>
-								<td class='rest-btn btn'></td>
+								<td class='rest-btn btn br'></td>
 							</tr>
 						</table>
 					</fieldset>

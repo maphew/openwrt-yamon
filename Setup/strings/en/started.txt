@@ -1,6 +1,6 @@
-******************************************************************
+**********************************************************
 *  You have started `yamon.sh` without any parameters.
-*  The script will use the settings in `config.file` in your 
-*  `Setup` directory.
-******************************************************************
+*  The script will use the settings in `config.file` in  
+*  your `Setup` directory.
+**********************************************************
 

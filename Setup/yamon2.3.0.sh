@@ -68,174 +68,9 @@
 # 2.2.4 (2015-08-26): symlink fixes (thanks to Alex Moore)
 # - a (2015-08-29): moved _updatefreq in configtxt string
 # 2.2.5 (2015-09-09): tweaked issues with dolocalfiles and password protection for settings
+# 2.2.6 (2015-09-14): sendAlert on start
+# 2.3 (2015-11-01): starting using source includes
 
-#defaults
-_version='2.2.5'
-_file_version=2.2
-d_firmware=0
-_savedconfigMd5=''
-_configMd5=''
-_connectedUsers='/proc/net/arp'
-YAMON_IP4='YAMON'
-YAMON_IP6='YAMONv6'
-
-#default parameters - these values may be updated in readConfig()
-d_updatefreq=30
-d_publishInterval=4
-d_baseDir=`dirname $0`
-_lang='en'
-d_path2strings="$d_baseDir/strings/$_lang/"
-d_setupWebDir="Setup/www/"
-d_setupWebIndex="yamon2.html"
-d_setupWebDev="yamon2.2.html"
-d_dataDir="data/"
-d_logDir="logs/"
-d_wwwPath="/tmp/www/"
-d_wwwJS="js/"
-d_wwwCSS="css/"
-d_wwwImages='images/'
-d_wwwData="data/"
-d_dowwwBU=0
-d_wwwBU="wwwBU/"
-d_usersFileName="users.js"
-d_hourlyFileName="hourly_data.js"
-d_usageFileName="mac_data.js"
-d_configWWW="config.js"
-d_symlink2data=1
-d_enableLogging=1
-d_log2file=1
-d_loglevel=1
-d_ispBillingDay=5
-d_doDailyBU=1
-d_tarBUs=0
-d_doLiveUpdates=0
-d_doCurrConnections=0
-d_liveFileName="live_data.js"
-d_dailyBUPath="daily-bu/"
-d_unlimited_usage=0
-d_unlimited_start="02:00"
-d_unlimited_end="08:00"
-d_lan_iface_only=0
-d_settings_pswd=''
-d_dnsmasq_conf="/tmp/dnsmasq.conf"
-d_dnsmasq_leases="/tmp/dnsmasq.leases"
-d_do_separator=""
-d_includeBridge=0
-d_bridgeMAC='XX:XX:XX:XX:XX:XX' #MUST be entered all upper case
-d_bridgeIP='###.###.###.###'
-d_defaultOwner='Unknown'
-d_defaultDeviceName='New Device'
-d_includeIPv6=0
-d_doLocalFiles=0
-d_dbkey=''
-d_ignoreGateway=0
-d_gatewayMAC=''
-d_sendAlerts=0
-d_organizeData=0
-d_allowMultipleIPsperMAC=0
-
-#globals
-_macUsageDB=""
-_hourlyUsageDB=""
-_liveUsageDB=""
-_usersFile=""
-_macUsageWWW=""
-_usersFileWWW=""
-_hourlyFileName=""
-_hourlyUsageWWW=""
-_hourlyData=""
-_currentConnectedUsers=""
-_hData=""
-_unlimited_usage=""
-_unlimited_start=""
-_unlimited_end=""
-old_inUnlimited=0
-
-_enableLogging=1
-_log2file=1
-_loglevel=1
-_detanod=0
-_ndAMS_dailymax=24
-_log_str=''
-
-showmsg()
-{
-	local wm=$1
-	msg="$(cat "$d_path2strings$wm" )"
-	[ ! -z "$2" ] && msg=$(echo "$msg" | sed -e "s/15 seconds/$2 seconds/g" )
-	echo -e "$msg"
-}
-send2log()
-{
-	[ "$_enableLogging" -eq "0" ] && return
-	[ "$2" -lt "$_loglevel" ] && return
-	local ts=$(date +"%H:%M:%S")
-	if [ ! -f "$logfilename" ] ; then
-		echo "$_ds $ts $2 $1
-[ NB - this message is being shown on the screen because
-  the path to the log file won't be known until
-  the config file has been read. ]
-"
-		return
-	fi
-	[ "$_log2file" -gt "0" ] && _log_str="$_log_str
-$_ds	$ts $2	$1"
-	[ "$_log2file" -ne "1" ] && echo -e "$_ds $ts $2 $1"
-}
-
-sendAlert()
-{
-
-	local subj="$1"
-	local msg="$2"
-	if [ -z "$_sendAlertTo" ] ; then
-		send2log "sendAlert:: _sendAlertTo is null... cannot send subj: $subj  msg: $msg" 2
-		return
-	fi
-	[ -z "$ndAMS" ] && ndAMS=0
-	if [ "$ndAMS" -gt "$_ndAMS_dailymax" ] ; then
-		send2log "sendAlert:: exceeded daily alerts max... cannot send subj: $subj  msg: $msg" 0
-		return
-	fi
-
-	local ds=$(date +"%Y-%m-%d %H:%M:%S")
-	msg="$msg \n\n Message sent: $ds"
-
-	if [ "$ndAMS" -eq "$_ndAMS_dailymax" ] ; then
- 		send2log "sendAlert:: exceeded daily alerts max... cannot send subj: $subj  msg: $msg" 2
-		subj="Please check your YAMon Settings!"
-		msg="You have exceeded your alerts allocation (max $_ndAMS_dailymax messages per day).  This typically means that there is something wrong in your settings or configuration.  Please contact Al if you have any questions."
-	fi
-
-	if [ "$_sendAlerts" -eq "1" ] ; then
-		subj=$(echo "$subj" | tr ' ' '_')
-		msg=$(echo "$msg" | tr ' ' '_')
-		local url="http://usage-monitoring.com/current/sendmail.php?1&t=$_sendAlertTo&s=$subj&m=$msg"
-		wget "$url" -q -O /tmp/sndm.txt
-		local res=$(cat /tmp/sndm.txt)
-		send2log "calling sendAlert via usage-monitoring.com - url: $url  subj: $subj  msg: $msg  res: $res" 2
-	elif [ "$_sendAlerts" -eq "2" ] ; then
-		ECHO=/bin/echo
-		$ECHO -e "Subject: $subj\n\n$msg\n\n" | $_path2MSMTP -C $_MSMTP_CONFIG -a gmail $_sendAlertTo
-		send2log "calling sendAlert via msmtp - subj: $subj  msg: $msg" 2
-	fi
-	ndAMS=$(($ndAMS+1))
-}
-copyfiles(){
-	local src=$1
-	local dst=$2
-	$(cp -a $src $dst)
-	local res=$?
-	if [ "$res" -eq "1" ] ; then
-		local pre='  !!!'
-		local pos=' failed '
-	else
-		local pre='  >>>'
-		local pos=' successful'
-	fi
-	local lvl=$(($res+1))
-	send2log "$pre Copy from $src to $dst$pos ($res)" $lvl
-}
 setDefaults()
 {
 	if [ "$_configFile" == "--help" ] ; then
@@ -245,7 +80,7 @@ setDefaults()
 	if [ "$_configFile" == "--stop" ] ; then
 
 		if [ -d "$_lockDir" ] ; then
-			local dv=$(cat "$d_baseDir/config.file" | grep -io  "_updatefreq=[0-9]\{1,\}" | cut -d= -f2)
+			local dv=$(cat "$d_baseDir/config.file" | egrep -io _updatefreq=[\'\"]\{0,1\}[0-9]\{1,\}[\'\"]\{0,1\} | egrep -io [0-9]\{1,\})            
    			showmsg 'stop.txt' "$dv"
 			rmdir "$_lockDir"
 		else
@@ -254,16 +89,15 @@ setDefaults()
 		exit 0
 	fi
 	#enough of the special parameters... now down to business
-	if [ ! -d "$_lockDir" ] ; then
+	if [ -d "$_lockDir" ] ; then
+		showmsg 'running.txt'
+		exit 0
+	else
 		mkdir "$_lockDir"
 		showmsg 'title.txt'
 		echo "
 YAMon :: $_version
-
 "
-	else
-		showmsg 'running.txt'
-		exit 0
 	fi
 	send2log "=== Checking the script parameters ===" 0
 	if [ -z "$_configFile" ] ; then
@@ -290,70 +124,9 @@ readConfig(){
 	_savedconfigMd5="$_configMd5"
 	[ "$started" -eq "1" ] && send2log "  >>> _configMd5 --> $_configMd5   _savedconfigMd5 --> $_savedconfigMd5  " -1
 	local configString=$(cat $_configFile)
-	while read row
-	do
-		eval $row
-	done < $_configFile
-	if [ -z "$_updatefreq" ] || [ -z "$_publishInterval" ] ; then
-		send2log '  >>> Problems in config.file... paremeters not set properly... using defaults' 2
-	fi
-	#if the parameters are missing then set them to the defaults
-	[ -z "$_firmware" ] && _firmware=$d_firmware
-	[ -z "$_updatefreq" ] && _updatefreq=$d_updatefreq
-	[ -z "$_publishInterval" ] && _publishInterval=$d_publishInterval
-	[ -z "$_enableLogging" ] && _enableLogging=$d_enableLogging
-	[ -z "$_log2file" ] && _log2file=$d_log2file
-	[ -z "$_loglevel" ] && _loglevel=$d_loglevel
-	[ -z "$_ispBillingDay" ] && _ispBillingDay=$d_ispBillingDay
-	[ -z "$_usersFileName" ] && _usersFileName=$d_usersFileName
-	[ -z "$_usageFileName" ] && _usageFileName=$d_usageFileName
-	[ -z "$_hourlyFileName" ] && _hourlyFileName=$d_hourlyFileName
-	[ -z "$_doLiveUpdates" ] && _doLiveUpdates=$d_doLiveUpdates
-	[ -z "$_doCurrConnections" ] && _doCurrConnections=$d_doCurrConnections
-	[ -z "$_liveFileName" ] && _liveFileName=$d_liveFileName
-	[ -z "$_doDailyBU" ] && _doDailyBU=$d_doDailyBU
-	[ -z "$_dailyBUPath" ] && _dailyBUPath=$d_dailyBUPath
-	[ -z "$_tarBUs" ] && _tarBUs=$d_tarBUs
-	[ -z "$_baseDir" ] && _baseDir=$d_baseDir
-	[ -z "$_setupWebDir" ] && _setupWebDir=$d_setupWebDir
-	[ -z "$_setupWebIndex" ] && _setupWebIndex=$d_setupWebIndex
-	[ -z "$_setupWebDev" ] && _setupWebDev=$d_setupWebDev
-	[ -z "$_dataDir" ] && _dataDir=$d_dataDir
-	[ -z "$_logDir" ] && _logDir=$d_logDir
-	[ -z "$_wwwPath" ] && _wwwPath=$d_wwwPath
-	[ -z "$_wwwJS" ] && _wwwJS=$d_wwwJS
-	[ -z "$_wwwCSS" ] && _wwwCSS=$d_wwwCSS
-	[ -z "$_wwwImages" ] && _wwwImages=$d_wwwImages
-	[ -z "$_wwwData" ] && _wwwData=$d_wwwData
-	[ -z "$_dowwwBU" ] && _dowwwBU=$d_dowwwBU
-	[ -z "$_wwwBU" ] && _wwwBU=$d_wwwBU
-	[ -z "$_configWWW" ] && _configWWW=$d_configWWW
-	[ -z "$_unlimited_usage" ] && _unlimited_usage=$d_unlimited_usage
-	[ -z "$_unlimited_start" ] && _unlimited_start=$d_unlimited_start
-	[ -z "$_unlimited_end" ] && _unlimited_end=$d_unlimited_end
-	[ -z "$_lan_iface_only" ] && _lan_iface_only=$d_lan_iface_only
-	[ -z "$_settings_pswd" ] && _settings_pswd=$d_settings_pswd
-	[ -z "$_dnsmasq_conf" ] && _dnsmasq_conf=$d_dnsmasq_conf
-	[ -z "$_dnsmasq_leases" ] && _dnsmasq_leases=$d_dnsmasq_leases
-	[ -z "$_do_separator" ] && _do_separator=$d_do_separator
-	[ -z "$_includeBridge" ] && _includeBridge=$d_includeBridge
-	[ -z "$_defaultOwner" ] && _defaultOwner=$d_defaultOwner
-	[ -z "$_defaultDeviceName" ] && _defaultDeviceName=$d_defaultDeviceName
-	[ -z "$_doLocalFiles" ] && _doLocalFiles=$d_doLocalFiles
-	[ -z "$_dbkey" ] && _dbkey=$d_dbkey
-	[ -z "$_sendAlerts" ] && _sendAlerts=$d_sendAlerts
-	[ -z "$_ignoreGateway" ] && _ignoreGateway=$d_ignoreGateway
-	[ -z "$_gatewayMAC" ] && _gatewayMAC=$d_gatewayMAC
-	[ -z "$_organizeData" ] && _organizeData=$d_organizeData
-	[ -z "$_allowMultipleIPsperMAC" ] && _allowMultipleIPsperMAC=$d_allowMultipleIPsperMAC
-	[ -z "$_symlink2data" ] && _symlink2data=$d_symlink2data
-	if [ "$_includeBridge" == "1" ] ; then
-		[ -z "$_bridgeMAC" ] && _bridgeMAC=$d_bridgeMAC
-		[ -z "$_bridgeIP" ] && _bridgeIP=$d_bridgeIP
-		_bridgeMAC=$(echo "$_bridgeMAC" | tr '[a-z]' '[A-Z]')
-	fi
-	[ -z "$_includeIPv6" ] && _includeIPv6=$d_includeIPv6
-
+    
+    loadconfig "$_configFile"
+	
 	if [ "$_firmware" -eq "0" ]; then
 		_lan_iface=$(nvram get lan_ifname)
 		_conntrack="/proc/net/ip_conntrack"
@@ -371,35 +144,11 @@ readConfig(){
 	_usersFile="$_baseDir$_dataDir$_usersFileName"
 
 	[ "$_symlink2data" -eq "0" ] && _usersFileWWW="$_wwwPath$_wwwData$_usersFileName"
-
 	[ ! -d "$_wwwPath$_wwwJS" ] && mkdir -p "$_wwwPath$_wwwJS"
 
 	local configjs="$_wwwPath$_wwwJS$_configWWW"
-
 	_liveFilePath="$_wwwPath$_wwwJS$_liveFileName"
-
-
-
 	#Check for directories
-	if [ "${_logDir:0:1}" == "/" ] ; then
-		lfpath=$_logDir
-	else
-		lfpath=$_baseDir$_logDir
-	fi
-	logfilename="${lfpath}monitor-$_ds.log"
-	ts=$(date +"%H:%M:%S")
-
-	[ ! -d "$lfpath" ] && mkdir -p "$lfpath"
-	[ ! -f "$logfilename" ] && echo "$_ds	$ts
----------------------------------------
-YAMon :: version $_version
-=======================================">>$logfilename
-	[ "$started" -eq "0" ] && send2log "
----------------------------------------
-Starting the Yet Another Monitor script [ log ]
-version $_version
-=======================================
-" 2
 	send2log "--- Configuration Settings ---
 $configString
 date	time	level	message	mac address	down	up" 2
@@ -408,7 +157,6 @@ date	time	level	message	mac address	down	up" 2
 		send2log "  >>> Creating data directory" 1
 		mkdir -p "$_baseDir$_dataDir"
 	fi
-
 	if [ ! -f "$configjs" ] ; then
 		send2log "  >>> config.js not found... creating new file: $configjs" 2
 		touch $configjs
@@ -416,6 +164,7 @@ date	time	level	message	mac address	down	up" 2
 	configtxt="var _ispBillingDay=$_ispBillingDay
 var _wwwData='$_wwwData'
 var _scriptVersion='$_version'
+var _file_version='$_file_version'
 var _usersFileName='$_usersFileName'
 var _usageFileName='$_usageFileName'
 var _hourlyFileName='$_hourlyFileName'
@@ -754,14 +503,12 @@ setupIPv6Rules()
 }
 setwebdirectories()
 {
-
+    [ "$_firmware" -eq "1" ] && [ ! -h "/www/user" ] &&ln -s "/tmp/www" "/www/user"
 	send2log "=== setwebdirectories ===" 0
 	if [ "$_symlink2data" -eq "1" ] ; then
-
 		local lcss=${_wwwCSS%/}
 		local limages=${_wwwImages%/}
 		local ldata=${_wwwData%/}
-
 		[ ! -h "$_wwwPath$lcss" ] && ln -s "$_baseDir$_setupWebDir$lcss" "$_wwwPath$lcss"
 		[ ! -h "$_wwwPath$limages" ] && ln -s "$_baseDir$_setupWebDir$limages" "$_wwwPath$limages"
 
@@ -895,80 +642,14 @@ _hourlyData-->$_hourlyData
  " -1
 		getCurrentIP_MAC
 		send2log "	>>> date change: $_pDay --> $_cDay " 0
-		updateHourly2Monthly &
+		updateHourly2Monthly $_cYear $_cMonth $_pDay &
+		[ "$_doDailyBU" -eq "1" ] && dailyBU &
 		_cMonth=$(date +%m)
 		_cYear=$(date +%Y)
 		_ds="$_cYear-$_cMonth-$_cDay"
-		[ "$_doDailyBU" -eq "1" ] && dailyBU
 		setlogdatafiles
 	fi
 	_pDay="$_cDay"
-}
-digitAdd()
-{
-	local n1=$1
-	local n2=$2
-	local l1=${#n1}
-	local l2=${#n2}
-	if [ "$l1" -lt "10" ] && [ "$l2" -lt "10" ] ; then
-		total=$(($n1+$n2))
-		echo $total
-		return
-	fi
-	local carry=0
-	local total=''
-	while [ "$l1" -gt "0" ] || [ "$l2" -gt "0" ]; do
-		d1=0
-		d2=0
-		l1=$(($l1-1))
-		l2=$(($l2-1))
-		[ "$l1" -ge "0" ] && d1=${n1:$l1:1}
-		[ "$l2" -ge "0" ] && d2=${n2:$l2:1}
-		s=$(($d1+$d2+$carry))
-		sum=$(($s%10))
-		carry=$(($s/10))
-		total="$sum$total"
-	done
-	[ "$carry" -eq "1" ] && total="$carry$total"
-	echo $total
-}
-digitSub()
-{
-	local n1=$(echo "$1" | sed 's/-*//')
-	local n2=$(echo "$2" | sed 's/-*//')
-	local l1=${#n1}
-	local l2=${#n2}
-	if [ "$l1" -lt "10" ] && [ "$l2" -lt "10" ] ; then
-		echo $(($n1-$n2))
-		return
-	fi
-	local b=0
-	local total=''
-	local d1=0
-	local d2=0
-	local d=0
-	while [ "$l1" -gt "0" ] || [ "$l2" -gt "0" ]; do
-		d1=0
-		d2=0
-		l1=$(($l1-1))
-		l2=$(($l2-1))
-		[ "$l1" -ge "0" ] && d1=${n1:$l1:1}
-		[ "$l2" -ge "0" ] && d2=${n2:$l2:1}
-		[ "$d2" == "-" ] && d2=0
-		d1=$(($d1-$b))
-		b=0
-		[ $d2 -gt $d1 ] && b="1"
-		d=$(($d1+$b*10-$d2))
-		total="$d$total"
-	done
-	[ "$b" -eq "1" ] && total="-$total"
-	echo $(echo "$total" | sed 's/0*//')
-}
-getCV()
-{
-	local result=$(echo "$1" | grep -io "\"$2\":[\"0-9]\{1,\}" | grep -o "[0-9]\{1,\}");
-	[ -z $result ] && result=0
-	echo "$result"
 }
 getMI()
 {
@@ -1283,152 +964,6 @@ serverload($load1,$load5,$load15)" > $_liveFilePath
 		send2log "	>>> curr_connections" 0
 		awk "$_conntrack_awk" "$_conntrack" >> $_liveFilePath
 	fi
-
-}
-updateHourly2Monthly()
-{
-	send2log "=== updateHourly2Monthly === " 0
-	local _pMonth=${_cMonth#0}
-	local _pYear=$_cYear
-	#local _pDay=$1
-	#local _pMonth=$2
-	#local _pYear=$3
-	local rMonth=$_pMonth
-	local rYear=$_pYear
-
-	if [ "$_pDay" -lt "$_ispBillingDay" ] ; then
-		local rMonth=$(($rMonth-1))
-		if [ "$rMonth" == "0" ] ; then
-			rMonth=12
-			local rYear=$(($rYear-1))
-		fi
-	fi
-	_pMonth=$(printf %02d $_pMonth)
-	rMonth=$(printf %02d $rMonth)
-	local savePath="$_baseDir$_dataDir"
-	case $_organizeData in
-		(*"0"*)
-			local savePath="$_baseDir$_dataDir"
-		;;
-		(*"1"*)
-			local savePath="$_baseDir$_dataDir$rYear/"
-		;;
-		(*"2"*)
-			local savePath="$_baseDir$_dataDir$rYear/$rMonth/"
-		;;
-	esac
-
-	local _prevhourlyUsageDB="$savePath$_pYear-$_pMonth-$_pDay-$_hourlyFileName"
-	if [ ! -f "$_prevhourlyUsageDB" ]; then
-		send2log "*** Hourly usage file not found ($_prevhourlyUsageDB)  (_organizeData:$_organizeData)" 2
-		return
-	fi
-	local hsum=''
-	local p_pnd_d=0
-	local p_pnd_u=0
-	local p_uptime=0
-	local p_do_tot=0
-	local p_up_tot=0
-	local _maxInt="4294967295"
-	local findstr=".*\"hour\":\"start\".*"
-	local srch=$(cat "$_prevhourlyUsageDB")
-	local cLine=$(echo "$srch" | grep -i "$findstr")
-	local p_uptime=$(getCV "$cLine" "uptime")
-	send2log "  >>> reading from $_prevhourlyUsageDB & writing to $_macUsageDB" 0
-	local srb=0
-	local reboots=''
-	while read hline
-	do
-		local mac=$(echo "$hline" | grep -io '\"mac\":\"[a-z0-9\:\-]*\"' | cut -f4 -d"\"");
-		local down=$(getCV "$hline" "down")
-		local up=$(getCV "$hline" "up")
-		local hr=$(getCV "$hline" "hour")
-		if [ -z "$mac" ] && [ "$up" == "0" ] && [ "$down" == "0" ]; then
-			send2log "  >>> skipping: $hline " 0
-			continue
-		elif [ -z "$mac" ] ; then
-			fn="dtp"
-			m_nm=''
-			[ "$p_pnd_d" == "0" ] && p_pnd_d=$down
-			[ "$p_pnd_u" == "0" ] && p_pnd_u=$up
-		else
-			fn="dt"
-			m_nm="\"mac\":\"$mac\","
-		fi
-		local findstr="$fn({$m_nm\"day\":\"$_pDay\".*})"
-		local cLine=$(echo "$hsum" | grep -i "$findstr")
-		if [ "$fn" == "dt" ] && [ "$_unlimited_usage" -eq "1" ] ; then
-			ul_do=$(getCV "$hline" "ul_do")
-			ul_up=$(getCV "$hline" "ul_up")
-		fi
-		send2log "  >>> fn: $fn	mac: $mac   hline: $hline" 0
-		if [ -z "$cLine" ] ; then		#Add a new line
-			local newentry="$fn({$m_nm\"day\":\"$_pDay\",\"down\":$down,\"up\":$up})"
-			[ "$fn" == "dt" ] && [ "$_unlimited_usage" -eq "1" ] && newentry="$fn({$m_nm\"day\":\"$_pDay\",\"down\":$down,\"up\":$up,\"ul_do\":$ul_do,\"ul_up\":$ul_up})"
-			hsum="$hsum
-$newentry"
-			send2log "  >>> Add new line:	$newentry " 0
-		elif [ "$fn" == "dt" ] ; then	#Update an existing hourly line
-			local do_tot=$(getCV "$cLine" "down")
-			local up_tot=$(getCV "$cLine" "up")
-
-			do_tot=$(digitAdd "$do_tot" "$down")
-			up_tot=$(digitAdd "$up_tot" "$up")
-			[ "$do_tot" \< "0" ] && send2log "  >>> do_tot rolled over --> $do_tot" 0
-			[ "$up_tot" \< "0" ] && send2log "  >>> up_tot rolled over --> $up_tot" 0
-			[ "$do_tot" \< "0" ] && do_tot=$(digitSub "$_maxInt" "$do_tot")
-			[ "$up_tot" \< "0" ] && up_tot=$(digitSub "$_maxInt" "$up_tot")
-			if [ "$_unlimited_usage" -eq "1" ] ; then
-				local ul_do_tot=$(getCV "$cLine" "ul_do")
-				local ul_up_tot=$(getCV "$cLine" "ul_up")
-				ul_do_tot=$(digitAdd "$ul_do_tot" "$ul_do")
-				ul_up_tot=$(digitAdd "$ul_up_tot" "$ul_up")
-				local newentry="$fn({$m_nm\"day\":\"$_pDay\",\"down\":$do_tot,\"up\":$up_tot,\"ul_do\":$ul_do_tot,\"ul_up\":$ul_up_tot})"
-			else
-				local newentry="$fn({$m_nm\"day\":\"$_pDay\",\"down\":$do_tot,\"up\":$up_tot})"
-			fi
-			hsum=$(echo "$hsum" | sed -e "s/$findstr/$newentry/g")
-			send2log "  >>> update existing line:	$newentry " 0
-
-		else	#Update an existing PND line
-			local uptime=$(getCV "$hline" "uptime")
-			send2log "  >>> hline: $hline" 0
-			if [ "$uptime" -gt "$p_uptime" ] ; then
-				svd=$(digitSub "$down" "$p_pnd_d")
-				svu=$(digitSub "$up" "$p_pnd_u")
-				[ "$svd" \< "0" ] && send2log "  >>> svd rolled over --> $svd" 0
-				[ "$svu" \< "0" ] && send2log "  >>> svu rolled over --> $svu" 0
-				[ "$svd" \< "0" ] && svd=$(digitSub "$_maxInt" "$svd")
-				[ "$svu" \< "0" ] && svu=$(digitSub "$_maxInt" "$svu")
-				p_do_tot=$(digitAdd "$p_do_tot" "$svd")
-				p_up_tot=$(digitAdd "$p_up_tot" "$svu")
-				send2log "  >>> update existing dtp line:	$newentry " 0
-			else
-				svd=$down
-				svu=$up
-				p_do_tot=$(digitAdd "$p_do_tot" "$svd")
-				p_up_tot=$(digitAdd "$p_up_tot" "$svu")
-				srb=$(($srb + 1))
-				reboots=",\"reboots\":\"$srb\""
-				send2log "  >>> Server rebooted... $hr - partial update /tuptime:$uptime	 p_uptime:$p_uptime$reboots" 2
-			fi
-			send2log "  >>> fn: $fn	hr: $hr	uptime: $uptime	 p_uptime: $p_uptime	svd: $svd	svu: $svu " 0
-			local newentry="$fn({$m_nm\"day\":\"$_pDay\",\"down\":$p_do_tot,\"up\":$p_up_tot$reboots})"
-			hsum=$(echo "$hsum" | sed -e "s/$findstr/$newentry/g")
-			send2log "  >>> p_do_tot: $p_do_tot	p_up_tot: $p_up_tot " 0
-			p_pnd_d=$down
-			p_pnd_u=$up
-			p_uptime=$uptime
-		fi
-	done < $_prevhourlyUsageDB
-
-	hsum=$(echo "$hsum" | sed -e "s~var monthly_updated=.*~var monthly_updated=\"$ds\"~")
-
-	echo "$hsum" >> $_macUsageDB
-	send2log "hsum: $hsum" -1
-	local ds=$(date +"%Y-%m-%d %H:%M:%S")
-	[ "$_symlink2data" -eq "0" ] && copyfiles "$_macUsageDB" "$_macUsageWWW"
-	send2log "=== done updateHourly2Monthly === " 0
 }
 
 dailyBU()
@@ -1447,9 +982,9 @@ dailyBU()
 	if [ "$_tarBUs" -eq "1" ]; then
 		send2log "  >>> Compressed back-ups for $bu_ds to $bupath"'bu-'"$bu_ds.tar" 1
 		if [ "$_enableLogging" -eq "1" ] ; then
-			tar -czf $bupath"bu-$bu_ds.tar" "$_usersFile" "$_macUsageDB" "$_hourlyUsageDB" "$logfilename"
+			tar -czf $bupath"bu-$bu_ds.tar" "$_usersFile" "$_macUsageDB" "$_hourlyUsageDB" "$logfilename" &
 		else
-			tar -czf $bupath"bu-$bu_ds.tar" "$_usersFile" "$_macUsageDB" "$_hourlyUsageDB"
+			tar -czf $bupath"bu-$bu_ds.tar" "$_usersFile" "$_macUsageDB" "$_hourlyUsageDB" &
 		fi
 		local return=$?
 		if [ "$return" -ne "0" ] ; then
@@ -1522,21 +1057,19 @@ getLocalCopies()
 	local _yamonjs="$webpath/yamon$_file_version.js"
 	local _utiljs="$webpath/util$_file_version.js"
 	local _md5js="$webpath/jquery.md5.min.js"
-
-
 	local _yamoncss="$path/css/yamon$_file_version.css"
 	local _resetcss="$path/css/normalize.css"
 
 	if [ "$_doLocalFiles" -eq "1" ] ;  then
 		send2log "  >>> local copy via curl " 1
 		#get js files from usage-monitoring:
-		curl --request GET "$web/js/yamon$_file_version.js" --header "Pragma: no-cache" --header "Cache-Control: no-cache" > $_yamonjs
-		curl --request GET "$web/js/util$_file_version.js" --header "Pragma: no-cache" --header "Cache-Control: no-cache" > $_utiljs
-		[ ! "$_settings_pswd" == "" ] && curl --request GET "$web/js/jquery.md5.min.js" --header "Pragma: no-cache" --header "Cache-Control: no-cache" > $_md5js
+		curl -s --request GET "$web/js/yamon$_file_version.js" --header "Pragma: no-cache" --header "Cache-Control: no-cache" > $_yamonjs
+		curl -s --request GET "$web/js/util$_file_version.js" --header "Pragma: no-cache" --header "Cache-Control: no-cache" > $_utiljs
+		[ ! "$_settings_pswd" == "" ] && curl -s --request GET "$web/js/jquery.md5.min.js" --header "Pragma: no-cache" --header "Cache-Control: no-cache" > $_md5js
 
 		#get css files from usage-monitoring:
-		curl --request GET "$web/css/normalize.css" --header "Pragma: no-cache" --header "Cache-Control: no-cache" > $_resetcss
-		curl --request GET "$web/css/yamon$_file_version.css" --header "Pragma: no-cache" --header "Cache-Control: no-cache" > $_yamoncss
+		curl -s --request GET "$web/css/normalize.css" --header "Pragma: no-cache" --header "Cache-Control: no-cache" > $_resetcss
+		curl -s --request GET "$web/css/yamon$_file_version.css" --header "Pragma: no-cache" --header "Cache-Control: no-cache" > $_yamoncss
 	elif [ "$_doLocalFiles" -eq "2" ] ;  then
 		send2log "  >>> local copy via wget " 1
 		#get js files from usage-monitoring:
@@ -1553,14 +1086,60 @@ getLocalCopies()
 
 # ==========================================================
 #				  Main program
-# ========================================================
+# ==========================================================
 
+#load source files from includes directory
+
+d_baseDir=`dirname $0`
+
+if [ ! -d "$d_baseDir/includes" ] || [ ! -f "$d_baseDir/includes/defaults.sh" ] || [ ! -f "$d_baseDir/includes/util.sh" ]  ; then
+    echo "
+**************************** ERROR!!! ****************************
+  You are missing the \`$d_baseDir/includes\` directory and/or 
+  files contained within that directory. Please re-download the 
+  latest version of YAMon and make sure that all of the necessary 
+  files and folders are copied to \`$d_baseDir\`!
+******************************************************************
+"
+    exit 0
+fi 
+
+source "$d_baseDir/includes/defaults.sh"
+source "$d_baseDir/includes/util.sh"
+source "$d_baseDir/includes/hourly2monthly.sh"
+
+#globals
+_savedconfigMd5=''
+_configMd5=''
+_macUsageDB=""
+_hourlyUsageDB=""
+_liveUsageDB=""
+_usersFile=""
+_macUsageWWW=""
+_usersFileWWW=""
+_hourlyFileName=""
+_hourlyUsageWWW=""
+_hourlyData=""
+_currentConnectedUsers=""
+_hData=""
+_unlimited_usage=""
+_unlimited_start=""
+_unlimited_end=""
+old_inUnlimited=0
+
+_enableLogging=1
+_log2file=1
+_loglevel=1
+_detanod=0
+_ndAMS_dailymax=24
+_log_str=''
 started=0
 sl_max=""
 sl_max_ts=""
 sl_min=""
 sl_min_ts=""
 ndAMS=0
+
 _cYear=$(date +%Y)
 local numdateset=0
 while [ "$_cYear" -le "2000" ]; do
@@ -1577,30 +1156,28 @@ _cMonth=$(date +%m)
 _ds="$_cYear-$_cMonth-$_cDay"
 p_hr=-1
 logfilename="${_logDir}monitor-$_ds.log"
-_lockDir="/tmp/YAMon-running"
+
 [ "$numdateset" -gt "0" ] && send2log "  >>> It took $numdateset loops to get the date right!" 2
+
 #set _configFile to the first parameter passed to the script (if any)
 _configFile=$1
-
 setDefaults
 
 processors=$(grep -i processor /proc/cpuinfo -c)
 readConfig
-
-[ "$_doLocalFiles" -gt "0" ] && getLocalCopies
-[ "$_doLocalFiles" -eq "0" ] && send2log "  >>> Using JS & CSS files at usage-monitoring.com" 2
-
 checkDates
 setwebdirectories
+[ "$_doLocalFiles" -gt "0" ] && getLocalCopies
+[ "$_doLocalFiles" -eq "0" ] && send2log "  >>> Using JS & CSS files at usage-monitoring.com" 2
 setlogdatafiles
 started=1
 
 [ ! -f "$_usersFile" ] && createUsersFile
 _currentUsers=$(cat "$_usersFile")
+ds=$(date +"%Y-%m-%d %H:%M:%S")
 if [ "$_includeBridge" -eq "1" ] ; then
 	local foundBridge=$(echo "$_currentUsers" | grep -i "$_bridgeMAC")
 	if [ -z "$foundBridge" ] ; then
-		ds=$(date +"%Y-%m-%d %H:%M:%S")
 		bridgeName=$(getNewDeviceName "$_bridgeMAC" "New Bridge")
 		if [ ! -z "$_do_separator" ] ; then
 			case $bridgeName in
@@ -1626,6 +1203,9 @@ if [ "$_includeBridge" -eq "1" ] ; then
 $newuser"
 	fi
 fi
+
+[ "$_sendAlerts" -gt "0" ] && sendAlert "YAMon has started!" "YAMon was started at $ds"
+
 _iteration=0
 currentIP_MAC=""
 getCurrentIP_MAC
@@ -1665,11 +1245,9 @@ while [ -d $_lockDir ]; do
 
 	#Check for a publish
 	if [ $(($_iteration%$_publishInterval)) -eq 0 ] ; then
-
 		publishData
 		[ ! -z "$_log_str" ] && echo "$_log_str" >> $logfilename
 		_log_str=''
-
 	fi
 	if [ ! -d $_lockDir ]; then
 		#one last backup before shutting down
@@ -1691,7 +1269,5 @@ while [ -d $_lockDir ]; do
 =====================================
   \`yamon.sh\` has stopped.
 -------------------------------------" 2
-		showmsg 'stopped.txt'
-		[ -d $_lockDir ] && rmdir $_lockDir
 	fi
 done &

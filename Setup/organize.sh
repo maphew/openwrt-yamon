@@ -40,7 +40,7 @@ organizeByYr(){
         local yr=$(echo "$fn" | cut -d'-' -f1)
         local mo=$(echo "$fn" | cut -d'-' -f2)
         local da=$(echo "$fn" | cut -d'-' -f3)
-        local rm=$(echo $mo | sed 's/0*//')
+        local rm=${mo#0}
         local ry="$yr"
         if [ "$da" -lt "$_ispBillingDay" ] ; then
             rm=$(($rm-1))
@@ -74,7 +74,7 @@ organizeByYrMo(){
         local yr=$(echo "$fn" | cut -d'-' -f1)
         local mo=$(echo "$fn" | cut -d'-' -f2)
         local da=$(echo "$fn" | cut -d'-' -f3)
-        local rm=$(echo $mo | sed 's/0*//')
+        local rm=${mo#0}
         local ry="$yr"
         if [ "$da" -lt "$_ispBillingDay" ] ; then
             rm=$(($rm-1))

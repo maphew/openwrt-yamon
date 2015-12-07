@@ -16,12 +16,8 @@
 #
 ##########################################################################
 
-
-
 d_baseDir=`dirname $0`
 _configFile="$d_baseDir"'/config.file'
-
-
 d_usageFileName="mac_data2.js"
 _loglevel=0
 _logFileName="monitor-*.log"
@@ -129,11 +125,6 @@ else
 	rYear=$3
 fi
 
-
-
-
-
-
 local savePath="$_baseDir$_dataDir"
 case $_organizeData in
 	(*"0"*)
@@ -146,8 +137,6 @@ case $_organizeData in
 		local savePath="$_baseDir$_dataDir$rYear/$rMonth/"
 	;;
 esac
-
-
 
 local _logFileName=$_baseDir$_logDir"monitor-$rYear-$rMonth-$rday.log"
 local _hourlyFileName="$savePath$rYear-$rMonth-$rday-hourly_data2.js"
