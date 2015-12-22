@@ -509,8 +509,10 @@ setupIPv6Rules()
 }
 setwebdirectories()
 {
-    #[ "$_firmware" -eq "1" ] && [ ! -h "/www/user" ] &&ln -s "/tmp/www" "/www/user"
-	[ "$_firmware" -eq "1" ] && [ ! -h "/www/user" ] &&ln -s "/tmp/www" "/www/custom"
+    #FIXME: this should probably be in `util.sh` instead
+	#[ "$_firmware" -eq "1" ] && [ ! -h "/www/user" ] &&ln -s "/tmp/www" "/www/user"
+	[ "$_firmware" -eq "openwrt" ] && [ ! -h "/www/user" ] &&ln -s "/tmp/www" "/www/custom"
+
 	send2log "=== setwebdirectories ===" 0
 	if [ "$_symlink2data" -eq "1" ] ; then
 		local lcss=${_wwwCSS%/}
