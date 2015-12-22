@@ -127,17 +127,9 @@ readConfig(){
     
     loadconfig "$_configFile"
 
-	echo _firmware=$_firmware
-	echo _lan_iface=$_lan_iface
-	echo _conntrack=$_conntrack
-	echo _conntrack_awk=$_conntrack_awk
-
+	#FIXME: this should be done from `config.file` or `yamon.startup` instead
 	source "$_baseDir/Setup/includes/firmware/$_firmware"
-	echo _firmware=$_firmware
-	echo _lan_iface=$_lan_iface
-	echo _conntrack=$_conntrack
-	echo _conntrack_awk=$_conntrack_awk
-	
+		
 	#############if [ "$_firmware" -eq "0" ]; then
 	#############    _lan_iface=$(nvram get lan_ifname)
 	############    _conntrack="/proc/net/ip_conntrack"
@@ -328,14 +320,16 @@ getNewDeviceName()
 	else
 		_dnsl=$(cat "$_dnsmasq_leases")
 	fi
-	if [ "$_firmware" -eq "0" ] ; then
+	
+	#TODO: investigate if these can be set from `.../includes/firmware` 
+	if [ "$_firmware" -eq "dd-wrt" ] ; then
 		_nvr=$(nvram show 2>&1 | grep -i "static_leases=")
 		result=$(echo "$_nvr" | grep -io "$dMac=.*=" | cut -d= -f2)
-	elif [ "$_firmware" -eq "1" ] ; then
+	elif [ "$_firmware" -eq "openwrt" ] ; then
 		# thanks to Robert Micsutka for providing this code
 		local ucihostid=$(uci show dhcp | grep dhcp.@host....mac= | grep -i $dMac | cut -d. -f2)
 		[ -n "$ucihostid" ] && result=$(uci get dhcp.$ucihostid.name)
-	elif [ "$_firmware" -eq "2" ] ; then
+	elif [ "$_firmware" -eq "asuswrt-merlin" ] ; then
 		#thanks to Chris Dougherty for providing this code
 		_nvr=$(nvram show 2>&1 | grep -i "dhcp_staticlist=")
 		local nvrt=$_nvr
@@ -352,6 +346,7 @@ getNewDeviceName()
 	else
 		send2log "  >>> Invalid value for \`firmware\` parameter in config.file" 2
 	fi
+
 	[ -z "$result" ] && result=$(echo "$_dnsc" | grep -i "$dMac" | cut -d, -f2)
 	[ -z "$result" ] && result=$(echo "$_dnsl" | grep -i "$dMac" | cut -d' ' -f4)
 	[ -z "$result" ] && result="$dName"
