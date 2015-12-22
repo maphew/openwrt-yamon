@@ -18,7 +18,8 @@ YAMON_IP4='YAMON'
 YAMON_IP6='YAMONv6'
 
 #global defaults
-d_firmware=0
+#d_firmware=0
+d_firmware='dd-wrt'
 d_updatefreq=30
 d_publishInterval=4
 _lang='en'

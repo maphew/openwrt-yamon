@@ -20,8 +20,9 @@
 # version 2.2.1 - added parameters: _wwwCSS, _wwwImages; removed _updateInterval
 # version 2.2.3 - removed _setupDir
 
+#_firmware='1'	 # which firmware is running on the router: permitted values: 0->DD-WRT(*) || 1->OpenWrt || 2->Asuswrt-Merlin
+_firmware='openwrt' # default 'dd-wrt', see "Setup/includes/firmware/" for other choices such as openwrt & asuswrt-merlin
 
-_firmware='1'	 # which firmware is running on the router: permitted values: 0->DD-WRT(*) || 1->OpenWrt || 2->Asuswrt-Merlin
 _updatefreq='30'	 # number of seconds between updates (* default `15` sec)
 
 _publishInterval='2'	 # number of intervals between updates for to the website (* default `12`)
@@ -29,7 +30,6 @@ _ispBillingDay='1'	 # roll-over day of the month for ISP billing (* default `1`)
 _baseDir='/opt/YAMon/'	 # path to the installation folder (* default `/opt/YAMon/`)
 _setupWebDir="Setup/www/"                    # path to the web files (* default `Setup/www/`)
 _setupWebIndex="yamon2.html"                 # path to the index page (* default `yamon2.html`)
-
 
 _dataDir="data/"                             # path to the data directory (* default `data/`)
 _logDir="logs/"                              # path to log files  (* default `logs/`)

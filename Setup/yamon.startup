@@ -22,6 +22,8 @@ _configFile="$d_baseDir/config.file"
 source "$d_baseDir/includes/defaults.sh"
 loadconfig "$_configFile"
 
+source "$d_baseDir/includes/firmware/$_firmware"
+
 if [ -d "$_lockDir" ] ; then
     showmsg 'running.txt'
     exit 0

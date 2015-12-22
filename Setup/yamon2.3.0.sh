@@ -126,20 +126,25 @@ readConfig(){
 	local configString=$(cat $_configFile)
     
     loadconfig "$_configFile"
+
+	echo _firmware=$_firmware
+	echo _lan_iface=$_lan_iface
+	echo _conntrack=$_conntrack
+	echo _conntrack_awk=$_conntrack_awk
 	
-	if [ "$_firmware" -eq "0" ]; then
-		_lan_iface=$(nvram get lan_ifname)
-		_conntrack="/proc/net/ip_conntrack"
-		_conntrack_awk='BEGIN { printf "var curr_connections=[ "} { gsub(/(src|dst|sport|dport)=/, ""); printf "[ '\''%s'\'','\''%s'\'','\''%s'\'','\''%s'\'','\''%s'\'' ],",$1,$1 == "tcp" ? $5 : $4,$1 == "tcp" ? $7 : $6,$1 == "tcp" ? $6 : $5,$1 == "tcp" ? $8 : $7; } END { print "[ null ] ]"}'
-	elif [ "$_firmware" -eq "1" ]; then
-		_lan_iface="br-lan"
-		_conntrack="/proc/net/nf_conntrack"
-		_conntrack_awk='BEGIN { printf "var curr_connections=[ "} { gsub(/(src|dst|sport|dport)=/, ""); printf "[ '\''%s'\'','\''%s'\'','\''%s'\'','\''%s'\'','\''%s'\'' ],",$3,$3 == "tcp" ? $7 : $6,$3 == "tcp" ? $9 : $8,$3 == "tcp" ? $8 : $7,$3 == "tcp" ? $10 : $9; } END { print "[ null ] ]"}'
-	elif [ "$_firmware" -eq "2" ]; then
-		_lan_iface=$(nvram get lan_ifname)
-		_conntrack="/proc/net/ip_conntrack"
-		_conntrack_awk='BEGIN { printf "var curr_connections=[ "} { gsub(/(src|dst|sport|dport)=/, ""); printf "[ '\''%s'\'','\''%s'\'','\''%s'\'','\''%s'\'','\''%s'\'' ],",$3,$3 == "tcp" ? $7 : $6,$3 == "tcp" ? $9 : $8,$3 == "tcp" ? $8 : $7,$3 == "tcp" ? $10 : $9; } END { print "[ null ] ]"}'
-	fi
+	#############if [ "$_firmware" -eq "0" ]; then
+	#############    _lan_iface=$(nvram get lan_ifname)
+	############    _conntrack="/proc/net/ip_conntrack"
+	###########    _conntrack_awk='BEGIN { printf "var curr_connections=[ "} { gsub(/(src|dst|sport|dport)=/, ""); printf "[ '\''%s'\'','\''%s'\'','\''%s'\'','\''%s'\'','\''%s'\'' ],",$1,$1 == "tcp" ? $5 : $4,$1 == "tcp" ? $7 : $6,$1 == "tcp" ? $6 : $5,$1 == "tcp" ? $8 : $7; } END { print "[ null ] ]"}'
+	##########elif [ "$_firmware" -eq "1" ]; then
+	#########    _lan_iface="br-lan"
+	########    _conntrack="/proc/net/nf_conntrack"
+	#######    _conntrack_awk='BEGIN { printf "var curr_connections=[ "} { gsub(/(src|dst|sport|dport)=/, ""); printf "[ '\''%s'\'','\''%s'\'','\''%s'\'','\''%s'\'','\''%s'\'' ],",$3,$3 == "tcp" ? $7 : $6,$3 == "tcp" ? $9 : $8,$3 == "tcp" ? $8 : $7,$3 == "tcp" ? $10 : $9; } END { print "[ null ] ]"}'
+	######elif [ "$_firmware" -eq "2" ]; then
+	#####    _lan_iface=$(nvram get lan_ifname)
+	####    _conntrack="/proc/net/ip_conntrack"
+	###    _conntrack_awk='BEGIN { printf "var curr_connections=[ "} { gsub(/(src|dst|sport|dport)=/, ""); printf "[ '\''%s'\'','\''%s'\'','\''%s'\'','\''%s'\'','\''%s'\'' ],",$3,$3 == "tcp" ? $7 : $6,$3 == "tcp" ? $9 : $8,$3 == "tcp" ? $8 : $7,$3 == "tcp" ? $10 : $9; } END { print "[ null ] ]"}'
+	##fi
 
 	_usersFile="$_baseDir$_dataDir$_usersFileName"
 
