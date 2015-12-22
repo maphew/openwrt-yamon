@@ -131,6 +131,12 @@ readConfig(){
 	echo _lan_iface=$_lan_iface
 	echo _conntrack=$_conntrack
 	echo _conntrack_awk=$_conntrack_awk
+
+	source "$_baseDir/Setup/includes/firmware/$_firmware"
+	echo _firmware=$_firmware
+	echo _lan_iface=$_lan_iface
+	echo _conntrack=$_conntrack
+	echo _conntrack_awk=$_conntrack_awk
 	
 	#############if [ "$_firmware" -eq "0" ]; then
 	#############    _lan_iface=$(nvram get lan_ifname)
