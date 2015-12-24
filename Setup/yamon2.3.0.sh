@@ -129,20 +129,6 @@ readConfig(){
 
 	#FIXME: this should be done from `config.file` or `yamon.startup` instead
 	source "$_baseDir/Setup/includes/firmware/$_firmware"
-		
-	#############if [ "$_firmware" -eq "0" ]; then
-	#############    _lan_iface=$(nvram get lan_ifname)
-	############    _conntrack="/proc/net/ip_conntrack"
-	###########    _conntrack_awk='BEGIN { printf "var curr_connections=[ "} { gsub(/(src|dst|sport|dport)=/, ""); printf "[ '\''%s'\'','\''%s'\'','\''%s'\'','\''%s'\'','\''%s'\'' ],",$1,$1 == "tcp" ? $5 : $4,$1 == "tcp" ? $7 : $6,$1 == "tcp" ? $6 : $5,$1 == "tcp" ? $8 : $7; } END { print "[ null ] ]"}'
-	##########elif [ "$_firmware" -eq "1" ]; then
-	#########    _lan_iface="br-lan"
-	########    _conntrack="/proc/net/nf_conntrack"
-	#######    _conntrack_awk='BEGIN { printf "var curr_connections=[ "} { gsub(/(src|dst|sport|dport)=/, ""); printf "[ '\''%s'\'','\''%s'\'','\''%s'\'','\''%s'\'','\''%s'\'' ],",$3,$3 == "tcp" ? $7 : $6,$3 == "tcp" ? $9 : $8,$3 == "tcp" ? $8 : $7,$3 == "tcp" ? $10 : $9; } END { print "[ null ] ]"}'
-	######elif [ "$_firmware" -eq "2" ]; then
-	#####    _lan_iface=$(nvram get lan_ifname)
-	####    _conntrack="/proc/net/ip_conntrack"
-	###    _conntrack_awk='BEGIN { printf "var curr_connections=[ "} { gsub(/(src|dst|sport|dport)=/, ""); printf "[ '\''%s'\'','\''%s'\'','\''%s'\'','\''%s'\'','\''%s'\'' ],",$3,$3 == "tcp" ? $7 : $6,$3 == "tcp" ? $9 : $8,$3 == "tcp" ? $8 : $7,$3 == "tcp" ? $10 : $9; } END { print "[ null ] ]"}'
-	##fi
 
 	_usersFile="$_baseDir$_dataDir$_usersFileName"
 
@@ -321,7 +307,7 @@ getNewDeviceName()
 		_dnsl=$(cat "$_dnsmasq_leases")
 	fi
 	
-	echo "TODO: investigate if these can be set from `.../includes/firmware`" 
+	#TODO: investigate if these can be set from `.../includes/firmware` 
 	if [ "$_firmware" == "dd-wrt" ] ; then
 		_nvr=$(nvram show 2>&1 | grep -i "static_leases=")
 		result=$(echo "$_nvr" | grep -io "$dMac=.*=" | cut -d= -f2)
