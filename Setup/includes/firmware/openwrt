@@ -1,4 +1,11 @@
-# OpenWrt firmware defaults 
+# OpenWrt firmware defaults
 _lan_iface="br-lan"
 _conntrack="/proc/net/nf_conntrack"
-_conntrack_awk='BEGIN { printf "var curr_connections=[ "} { gsub(/(src|dst|sport|dport)=/, ""); printf "[ '\''%s'\'','\''%s'\'','\''%s'\'','\''%s'\'','\''%s'\'' ],",$3,$3 == "tcp" ? $7 : $6,$3 == "tcp" ? $9 : $8,$3 == "tcp" ? $8 : $7,$3 == "tcp" ? $10 : $9; } END { print "[ null ] ]"}'
+_conntrack_awk='
+BEGIN {	printf "var curr_connections=[ " }
+{
+	gsub(/(src|dst|sport|dport)=/, "")
+	printf "[ '\''%s'\'','\''%s'\'','\''%s'\'','\''%s'\'','\''%s'\'' ],",$3,$3 == "tcp" ? $7 : $6,$3 == "tcp" ? $9 : $8,$3 == "tcp" ? $8 : $7,$3 == "tcp" ? $10 : $9
+}
+END { print "[ null ] ]" }
+'
