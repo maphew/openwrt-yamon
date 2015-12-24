@@ -321,15 +321,15 @@ getNewDeviceName()
 		_dnsl=$(cat "$_dnsmasq_leases")
 	fi
 	
-	#TODO: investigate if these can be set from `.../includes/firmware` 
-	if [ "$_firmware" -eq "dd-wrt" ] ; then
+	echo "TODO: investigate if these can be set from `.../includes/firmware`" 
+	if [ "$_firmware" == "dd-wrt" ] ; then
 		_nvr=$(nvram show 2>&1 | grep -i "static_leases=")
 		result=$(echo "$_nvr" | grep -io "$dMac=.*=" | cut -d= -f2)
-	elif [ "$_firmware" -eq "openwrt" ] ; then
+	elif [ "$_firmware" == "openwrt" ] ; then
 		# thanks to Robert Micsutka for providing this code
 		local ucihostid=$(uci show dhcp | grep dhcp.@host....mac= | grep -i $dMac | cut -d. -f2)
 		[ -n "$ucihostid" ] && result=$(uci get dhcp.$ucihostid.name)
-	elif [ "$_firmware" -eq "asuswrt-merlin" ] ; then
+	elif [ "$_firmware" == "asuswrt-merlin" ] ; then
 		#thanks to Chris Dougherty for providing this code
 		_nvr=$(nvram show 2>&1 | grep -i "dhcp_staticlist=")
 		local nvrt=$_nvr
@@ -511,7 +511,8 @@ setwebdirectories()
 {
     #FIXME: this should probably be in `util.sh` instead
 	#[ "$_firmware" -eq "1" ] && [ ! -h "/www/user" ] &&ln -s "/tmp/www" "/www/user"
-	[ "$_firmware" -eq "openwrt" ] && [ ! -h "/www/user" ] &&ln -s "/tmp/www" "/www/custom"
+	echo "--- "$_firmware" == "openwrt" for /tmp/www link" 
+	[ "$_firmware" == "openwrt" ] && [ ! -h "/www/user" ] &&ln -s "/tmp/www" "/www/custom"
 
 	send2log "=== setwebdirectories ===" 0
 	if [ "$_symlink2data" -eq "1" ] ; then
