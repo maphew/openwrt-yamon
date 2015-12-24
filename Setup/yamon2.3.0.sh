@@ -511,8 +511,7 @@ setwebdirectories()
 {
     #FIXME: this should probably be in `util.sh` instead
 	#[ "$_firmware" -eq "1" ] && [ ! -h "/www/user" ] &&ln -s "/tmp/www" "/www/user"
-	echo "--- "$_firmware" == "openwrt" for /tmp/www link" 
-	[ "$_firmware" == "openwrt" ] && [ ! -h "/www/user" ] &&ln -s "/tmp/www" "/www/custom"
+	[ "$_firmware" == "openwrt" ] && [ ! -h "/www/custom" ] &&ln -s "/tmp/www" "/www/custom"
 
 	send2log "=== setwebdirectories ===" 0
 	if [ "$_symlink2data" -eq "1" ] ; then
