@@ -9,3 +9,8 @@ BEGIN {	printf "var curr_connections=[ " }
 }
 END { print "[ null ] ]" }
 '
+
+# thanks to Robert Micsutka for providing this code
+_ucihostid='$(uci show dhcp | grep dhcp.@host....mac= | grep -i $dMac | cut -d. -f2)'
+_ucihostid_cmd='[ -n "$_ucihostid" ] && result=$(uci get dhcp.$_ucihostid.name)'
+
