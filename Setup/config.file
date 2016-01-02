@@ -93,3 +93,4 @@ _path2MSMTP=/opt/usr/bin/msmtp               #   NB - only required if _sendAler
 _MSMTP_CONFIG=/opt/scripts/msmtprc           #   NB - only required if _sendAlerts == 2
 _organizeData='0'	 # whether or not to organize data files - values: 0->no(*) || 1->by year || 2->by year & month
 allowMultipleIPperMaC=0                      # set to 1 if you have virtual machines with their own IP on a single MAC address - values: 0-->No(*) || 1->Yes
+
