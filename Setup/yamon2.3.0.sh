@@ -136,7 +136,7 @@ readConfig(){
 	[ ! -d "$_wwwPath$_wwwJS" ] && mkdir -p "$_wwwPath$_wwwJS"
 
 	local configjs="$_wwwPath$_wwwJS$_configWWW"
-	_liveFilePath="$_wwwPath$_wwwJS$_liveFileName"
+	_liveFilePath="$_wwwPath$_wwwData$_liveFileName"
 	#Check for directories
 	send2log "--- Configuration Settings ---
 $configString
@@ -161,7 +161,7 @@ var _processors='$processors'
 var _doLiveUpdates='$_doLiveUpdates'
 var _updatefreq='$_updatefreq'"
 	[ "$_doLiveUpdates" -eq "1" ] && configtxt="$configtxt
-var _liveFileName='./$_wwwData$_liveFileName'
+var _liveFileName='$_liveFileName'
 var _doCurrConnections='$_doCurrConnections'"
 configtxt="$configtxt
 var _unlimited_usage='$_unlimited_usage'
