@@ -1,0 +1,1651 @@
+#wrapper {
+	margin:0 auto;
+	max-width:1200px;
+	min-width:1050px;
+	width:1050px;
+}
+#pageContent{ 
+	background:#EEE;
+	min-width:1050px;
+	padding:4px 30px;
+}
+#data-section{
+	position:relative;
+}
+h1{
+	font-size:24px;
+	font-weight:bold;
+	margin:20px 0;
+}
+h2{
+	font-size:18px;
+	font-weight:bold;
+	margin:5px 0;
+}
+b{font-weight:bold;}
+p{margin:4px 0;}
+h3{
+	font-weight:bold;
+	font-size:12px;
+	margin:5px 0;
+}
+h6{
+	margin:6px 0;
+}
+ul {
+	list-style: circle outside none;
+	margin: 3px 12px;
+}
+th {
+	background: none repeat scroll 0 0 #C7C7C7;
+	border-bottom:3px double black;
+	font-weight: bold;
+	padding: 2px 5px;
+	vertical-align: bottom;
+}
+sup {
+  font-size: xx-small;
+  vertical-align: super;
+}
+.changes{
+	font-size:12px;
+	padding:2px 0;
+}
+.changes ul{
+	font-size:10px;
+}
+.expand{
+	margin-left:12px;
+}
+.change-notes{
+	display:none;
+	padding-left:20px;
+}
+.change-notes > p {
+	font-weight: bold;
+	left: -12px !important;
+	position: relative;
+}
+.required:before{
+	color:red;
+	content:'*';
+	font-weight:bold;
+}
+.expand:hover{
+	background:silver;
+	cursor:pointer;
+	text-decoration:underline;
+}
+.a-c{ text-align:center;}
+.isNull{ text-align:center!important;}
+.a-r,.num,.percent{text-align:right;}
+.a-l{text-align:left;}
+.intro{}
+#PageHeader{
+	position:relative;
+}
+#p-timer{
+	background:none repeat scroll 0 0 white;
+	border:1px solid #444444;
+	border-radius:8px 8px 8px 8px;
+	padding:10px;
+	position:absolute;
+	right:0;
+	top:-24px;
+}
+#p-timer img{
+	margin:0 0 2px 0;
+}
+#p-timer img:hover{
+	opacity:1;
+}
+#p-timer img:active{
+	margin:2px 0 0 0;
+	opacity:.33;
+}
+.tabs {
+	display: block;
+	margin: 10px 5px 1px 16px;
+}
+#settings-tabs .tabs {
+	line-height: 18px;
+	position: relative;
+	top: 1px;
+	z-index: 2;
+}
+#data-tabs {
+	line-height: 18px;
+	margin-bottom: 0;
+	position: relative;
+	z-index: 2;
+}
+.data-tab{
+	margin: 0 0 16px;
+}
+#collapse-summary {
+	background:url("../images/e-c.png") no-repeat scroll 0 0;
+	display:inline-block;
+	height:15px;
+	opacity:0.8;
+	width:16px;
+}
+.collapsed {
+	background:url("../images/e-c.png") no-repeat scroll 0 -15px rgba(0,0,0,0)!important;
+}
+.item-e {
+	background:url("../images/e-c.png") no-repeat scroll 0 0 rgba(0,0,0,0);
+	cursor:pointer;
+	display:inline-block;
+	height:13px;
+	width:13px;
+}
+.item-c {
+	background:url("../images/e-c.png") no-repeat scroll 0 -16px rgba(0,0,0,0);
+}
+.userName {
+	padding: 0 0 0 3px;
+}
+#rld-mbd-g{
+	opacity:0.8;
+}
+.nad:before{
+	content:'['
+}
+.nad:after{
+	content:']'
+}
+#devices-table td.edit-d {
+	min-width: 13px;
+	cursor:pointer;
+}
+.edit-d:hover{
+	background: url("http://usage-monitoring.com/current/images/edit.png") no-repeat center;
+	opacity:1;
+}.edit-d:active{
+	background: url("http://usage-monitoring.com/current/images/writing.png") no-repeat center;
+	opacity:0.5;
+}
+#collapse-summary:hover,#rld-mbd-g:hover,.item-e:hover,.item-c:hover,.nad:hover,.mb-all:hover,#sp_num_devices:hover,#sp_num_active_devices:hover{
+	cursor:pointer;
+	opacity:1;
+}
+#collapse-summary:active,#rld-mbd-g:active,.item-e:active,.item-c:active,.nad:active,.mb-all:active,#sp_num_devices:active,#sp_num_active_devices:active{
+	opacity:0.5;
+}
+.settings-tab,.data-view-name{
+	background:white;
+	border:1px solid #666;
+	border-bottom:1px solid white;
+	border-radius:12px 12px 0px 0px;
+	font-size:20px;
+	font-weight:bold;
+	margin:0px 2px 0 0;
+	padding:0px 10px;
+	position:relative;
+	top:0px;
+}
+.not-selected{
+	background:#DDD;
+	border-color:#AAA;
+	border-bottom-color:#666;
+	border-bottom:1px solid #666;
+	color:#777;
+	z-index:1;
+}
+.not-selected:hover{
+	background-color:silver;
+	border-bottom:1px solid silver;
+	color:#000;
+	cursor:pointer;
+	font-weight:bold;
+}
+.not-selected:active{
+	opacity:0.33;
+}
+.cf:after{
+	clear:both;
+	content:" ";
+	display:block;
+	font-size:0;
+	height:0;
+	visibility:hidden;
+}
+.tabs-sections{
+	background:white;
+	border:1px solid #666;
+	padding:5px 15px;
+	position:relative;
+}
+.settings-section{
+	padding:6px;
+}
+.data-view{
+	padding:6px;
+}
+.bytes{
+	font-size:smaller;
+}
+.Kbytes{
+}
+.MBytes{
+}
+.GBytes{
+	font-weight:bold;
+}
+.bytes:after{
+	content:' B';
+}
+.Kbytes:after{
+	content:' KB';
+}
+.MBytes:after{
+	content:' MB';
+}
+.GBytes:after{
+	content:' GB';
+}
+.br,.TotalBytes,.cap{
+	border-right:1px solid black;
+}
+.br2,.aggTotal{
+	border-right:3px double black;
+}
+.no-bb{
+	border-bottom:none;
+}
+.mval{
+	background:yellow;
+	color:green;
+	font-size:larger;
+}
+.mval:hover{
+	text-decoration:underline;
+	background:#EEE;
+}
+.b-l{
+	border-left:1px solid black;
+}
+#daily-tab-section,#monthly-tab-section{
+	min-height:425px;
+}
+.main-section{
+	display:-webkit-box;
+	display:-moz-box;
+	display:-ms-flexbox;
+	display:-webkit-flex;
+	display:flex;	
+}
+.data-table{
+ 	-moz-box-flex:1;	 /* OLD - Firefox 19- */
+	-webkit-box-flex:1;
+	-moz-box-flex:1;
+	-webkit-flex:1; 
+	-ms-flex:1;
+	flex:1;
+	z-index:2;
+}
+.negative{
+	color:red!important;
+}
+.negative:before{
+	content:'(';
+}
+.bytes.negative:after{
+	content:' B)';
+}
+.Kbytes.negative:after{ 
+	content:' KB)';
+}
+.MBytes.negative:after{ 
+	content:' MB)';
+}
+.GBytes.negative:after{ 
+	content:' GB)';
+}
+.group{
+	color:purple;
+	padding-left:2px;
+}
+#devicesData .group{
+	padding-left:8px;
+}
+.is_u{
+	background:#EEE;
+	border-bottom:1px dotted #999;
+	color:purple;
+	font-weight:bold;
+}
+.deviceName{
+	color:RoyalBlue;
+	text-indent:12px;
+}
+#DailyData .deviceName{
+	min-width:128px;
+}
+.footer{
+	background:#c4c4c4;
+	font-size:smaller;
+	padding:4px;
+	text-align:right;
+}
+tfoot{
+	background:#c4c4c4;
+}
+tfoot th,tfoot td{
+	border-top:3px double black;
+	font-weight:bold;
+	padding:2px 5px 2px;
+}
+#DiffFooter td,#PercentFooter td,#daily-isp-diff td,#daily-isp-percent td{
+	border-top:0;
+}
+#RouterFooter,#DiffFooter,#PercentFooter{
+	background:#EEE;
+}
+#Daily-correction-row,#Monthly-correction-row,.cf-desc{
+	background:#FFFF99;
+}
+#Daily-correction-row td,#Monthly-correction-row td{
+	border-top:1px solid black;
+}
+#tdaemon,#mtdaemon,#mb-tdaemon{
+	background:#e6e6e6;
+}
+#tdaemon-diff td,#mtdaemon td,#mb-tdaemon td{
+	border-top:1px solid black;
+	border-bottom:3px double black;
+}
+#MonthlyBreakdownHeader .isp,#MonthlyBreakdownHeader .is-isp {
+	background:#FFFF77;
+}
+#Daily-usage-table, #Monthly-usage-table{
+	z-index: 2;
+}
+#Daily-usage-table td, #Monthly-usage-table td, #Monthly-breakdown-table td,#devices-table td{
+	max-width:72px;
+	min-width:52px;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+}
+td.td-un{
+	min-width:140px!important;
+	max-width:160px!important;
+}
+#SystemTotalsTable > tbody {
+	display: inline-block;
+	max-height: 192px;
+	overflow-y: scroll;
+}
+#SystemTotalsTable td,#SystemTotalsTable th{
+	white-space:nowrap;
+}
+#SystemTotalsTable th{
+	display: inline-block;
+	height: 24px;
+	vertical-align: text-bottom;
+}
+#SystemTotalsTable th:nth-child(1),#SystemTotalsTable td:nth-child(1){
+	min-width:80px;max-width:80px;
+}
+#SystemTotalsTable th:nth-child(2),#SystemTotalsTable td:nth-child(2){
+	min-width:56px;max-width:56px;
+}
+#SystemTotalsTable th:nth-child(3),#SystemTotalsTable td:nth-child(3){
+	min-width:56px;max-width:56px;
+}
+#SystemTotalsTable th:nth-child(4),#SystemTotalsTable td:nth-child(4){
+	min-width:56px;max-width:56px;
+	border-right:3px double black;
+}
+#SystemTotalsTable th:nth-child(5),#SystemTotalsTable td:nth-child(5){
+	min-width:50px;max-width:50px;
+} 
+#SystemTotalsTable th:nth-child(6),#SystemTotalsTable td:nth-child(6){
+	min-width:56px;max-width:56px;
+}
+#MonthlyBreakdown .mbd-date, #SystemTotalsTable td:first-child, .deviceName ,#devicesData td {
+	max-width:none!important;
+}
+.mbd-date:hover,.group:hover,.userName:hover,.thedevice:hover,.change-units a:hover,#devicesData .deviceName:hover{
+	cursor:pointer;
+	text-decoration:underline;
+}
+.mbd-date:active,.group:active,.userName:active,.thedevice:active,.change-units a:active,#devicesData .deviceName:active{
+	opacity:0.5;
+}
+.uploads,.ul-up,.i-u,.r-u{
+	color:#800000;
+}
+.downloads,.ul-down,.i-d,.r-d{
+	color:blue;
+}
+.TotalBytes,.i-t,.r-t{
+	color:green;
+	padding:0 5px;
+}
+.hidden{
+	display:none;
+}
+.disabled{
+	color:silver;
+}
+td{
+	padding:2px 5px 2px;
+}
+#Daily-usage-table,#Monthly-usage-table,#devices-table{
+	margin-bottom:16px;
+	margin-right:16px;
+	position:relative;
+}
+#Monthly-breakdown-table{
+	font-weight:normal;
+	width:auto;
+}
+
+#DailyGraph,#MonthlyGraph,#UnlimitedGraph{
+	max-height:300px;
+	min-height:300px;
+	max-width:400px;
+	min-width:400px;
+	position:relative;
+}
+#UnlimitedGraph {
+}
+#add-correction,#remove-correction{
+	clear:left;
+}
+#hourlyGraph{
+	clear:both;
+}
+#RouterGraph,#ISPDelta,#gr-downloads{
+ }
+#ISPGraph,#CummulativeGraph,#gr-uploads{
+}
+#devices-table{
+	width:auto;
+}
+#devices-table td{
+	padding:inherit 10px;
+}
+.percent:after{
+	content:'%';
+}
+.percent.negative:after{ 
+	content:'%)';
+}
+.cap-ok{
+	background:none;
+}
+.cap-40{
+	background:#DAFF77;
+}
+.cap-80{
+	background:#FBFF47;
+}
+.cap-90{
+	background:#FFA0A0;
+}
+.over-cap{
+	background:#FF7A7A;
+	font-weight:bold;
+}
+#intro-ol {
+	list-style: decimal inside none;
+	text-indent: 12px;
+}
+#settings-columns{
+	display:-webkit-box;
+	display:-moz-box;
+	display:-ms-flexbox;
+	display:-webkit-flex;
+	display:flex;	
+}
+#settings-columns fieldset {
+	border: 1px solid silver;
+	border-radius: 12px;
+	margin: 0 12px 0 0;
+	min-width:216px;
+	padding: 4px 12px;
+}
+#settings-columns legend {
+	font-weight:bold;
+	padding: 0 4px;
+}
+#settings-columns p{
+	margin:0;
+}
+#settings-tabs{
+	margin: 0 0 16px;
+	position:relative;
+}
+.achanged{
+	background:lightYellow;
+}
+.achanged:after{
+	content:' *';
+	color:red;
+} 
+.changed:before{
+	content:'* ';
+	color:red;
+}
+.changed.c0:before{
+	color:#888;
+	content:'* ';
+}
+.changed.c1:before{
+	color:#222;
+	content:'* ';
+}
+.changed.c2:before{
+	color:#888;
+	content:'** ';
+}
+.changed.c3:before{
+	color:#222;
+	content:'** ';
+}
+.changed.c4:before{
+	color:#888;
+	content:'*** ';
+}
+.changed.c5:before{
+	color:#222;
+	content:'*** ';
+}
+#changes-legend{
+	border:1px solid black;
+	font-size:small;
+	left:492px;
+	padding:0 10px;
+	position:absolute;
+}
+.ddl-u{
+	background:#ddd;
+}
+.ddl-d{
+	text-indent:6px;
+}
+.ddl-device:before{
+	content:'-> ';
+}
+#no-daily-data td{
+	font-size:24px;
+	padding:12px;
+	text-align:center;
+}
+.notes{
+	border:1px solid silver;
+	margin:4px 10px;
+}
+.settings-section input[type="number"] {
+	text-align: right;
+	width: 48px;
+}
+.isp-u input,.isp-d input,#Daily-correction-row input{
+	background:transparent;
+	border:1px solid transparent;
+	text-align:right;
+}
+#d-isp-u,.cf-u input{
+	width:21px;
+}
+#d-isp-d,.cf-d input{
+	width:27px;
+}
+.isp-u input:hover,.isp-d input:hover,#Daily-correction-row input:hover{
+	background:#AAA;
+	border:1px dotted #666;
+}
+.isp-u input:focus,.isp-d input:focus,#Daily-correction-row input:focus{
+	background:#FFF;
+	border:1px solid #444;
+}
+.ispchange{
+	border:1px solid red;
+}
+.badvalue{
+	color:red;
+	font-weight:bold;
+}
+.loading-wrapper {
+	position: fixed;
+	text-align: center;
+	top: 250px;
+	width: 1050px;
+	z-index: 4;
+}
+.loading {
+	background: url("http://usage-monitoring.com/current/images/waiting.gif") no-repeat scroll center 56px #C0C0C0;
+	border: 5px double #000000;
+	font-size: 36px;
+	height: 72px;
+	margin: 0 auto;
+	padding: 10px;
+	position: relative;
+	width: 560px;
+}
+.strikeout{
+	text-decoration:line-through;
+}
+.imp-text{
+	background:#FFEBCD;
+	font-weight:bold;
+	padding:0 10px;
+}
+.imp-text.linked:hover{
+	cursor:pointer;
+	text-decoration:underline;
+}
+.currentSummary .interval:before{
+	color:red;
+	content:'\2605';
+	padding-right:2px
+}
+.corrected:before{
+	color:red;
+	content:'!';
+	font-family:impact;
+	font-size:small;
+	font-style:italic;
+	padding-right:4px
+}
+.interval{
+	cursor:pointer;
+	padding-left:16px;
+	text-align:center;
+}
+.currentSummary .interval{
+	padding-left:4px;
+}
+.rmls{
+	color:red;
+	text-align:center;
+}
+#add-history:active,.rmls:active{
+	opacity:0.5;
+}
+#add-history{ 
+	color:green;
+	font-size:14px;
+	font-weight:bold;
+	margin:0 6px;
+	text-align:center;
+}
+#add-history:before,.rmls:before{
+	color:black;
+	content:'[ ';
+}
+#add-history:after,.rmls:after{
+	color:black;
+	content:' ]';
+}
+.interval:hover{
+	text-decoration:underline;
+}
+#add-history:hover,.rmls:hover{
+	background:silver;
+	cursor:pointer;
+}
+#error-notification {
+	background: none repeat scroll 0 0 #FFFF00;
+	border: 7px double #FF0000;
+	font-size: 24px;
+	padding: 24px;
+	position: fixed;
+	text-align: center;
+	top: 156px;
+	width: 900px;
+	z-index: 5;
+}
+#error-notification h3{
+	font-size:14px;
+}
+.alert{
+	background:yellow;
+	border:3px double red;
+	font-size:24px;
+	text-align:center;
+}
+.summary-row:first-child .rmls{
+	display:none;
+}
+#settings{
+	background:white;
+	border:2px solid #333;
+	border-radius:8px;
+	left:24px;
+	position:absolute;
+	top:36px;
+	min-width:288px;
+	z-index:4;
+}
+#settings h3{
+	color:white;
+	background:#333;
+	margin:0;
+	padding:2px 12px;
+}
+#settings p,#settings textarea{
+	margin:4px 16px;
+	max-width:650px;
+}
+.mb-row,.summary-row,#devicesData tr,.p-tr,.p-cu,.acon-row{
+	background:#FFF;
+}
+.mb-row:nth-child(odd),.summary-row:nth-child(odd),.p-tr:nth-child(odd),.p-cu:nth-child(odd),.acon-row:nth-child(odd){
+	background:#EEE;
+}
+.is_u:hover,.is_d:hover,.mb-row:hover,.summary-row:hover,.currentSummary:hover,.p-cu:hover{
+	background:url('../images/grippy.png') no-repeat scroll 0 0 rgba(255,0,0,.05);
+}
+.p-cu:active{
+	opacity:0.5;
+}
+.mb-row:nth-child(odd):hover,.summary-row:nth-child(odd):hover{
+	background:url('../images/grippy.png') no-repeat scroll 0 0 rgba(255,0,0,.05);
+}
+#devicesData tr:hover{
+	background:url('../images/grippy.png') no-repeat scroll 0 0 rgba(255,0,0,.05)!important;
+}
+#bnav {
+	left: 300px;
+	position: relative;
+	top: -44px;
+}
+#bnDBtn{
+	margin-left:240px;
+}
+.is_td{
+	display:none;
+}
+#h_sd {
+	background-image:url("../images/wcheck.png");
+	border:1px solid silver;
+	cursor:pointer;
+	display:inline-block;
+	height:10px;
+	margin:0 8px 0 0;
+	width:10px;
+}
+.legend-colour {
+	background-image:url("../images/wcheck.png");
+	border:1px solid silver;
+	cursor:pointer;
+	display:inline-block;
+	height:10px;
+	margin:0 4px 0;
+	width:10px;
+}
+#MonthlyData .legend-colour {
+	background-image:none;
+}
+#c-h_sd{
+	border:1px solid silver;
+	padding:2px 10px;
+	position:relative;
+}
+#h_devicedisplay{
+	position:relative;
+}
+#h_fd-none {
+	border-bottom: 1px dotted;
+	padding-bottom: 3px;
+	margin-bottom: 3px;
+}
+#h_sd:hover,#c-h_sd:hover{
+	border:1px solid #333;
+}
+#h_sd:active{
+	background:#e2e2e2;
+}
+#h_sd.checked{
+	background:url("../images/check.png") no-repeat scroll 0 0 #FFF;
+}
+#h_sd.checked:active{
+	background:url("../images/check.png") no-repeat scroll 0 0 #e2e2e2;
+}
+#h_sd.partial{
+	background:url("../images/partial.png") no-repeat scroll 1px 1px #FFF;
+}
+#h_sd.partial:active{
+	background:url("../images/partial.png") no-repeat scroll 1px 1px #e2e2e2;
+}
+#h_sd-dd{
+	background:url("../images/select.png") no-repeat scroll 1px 4px #FFF;
+	cursor:pointer;
+	display:inline-block;
+	height:10px;
+	padding-left:10px;
+	opacity:0.5;
+}
+#h_sd-dd:hover{
+	opacity:1;
+}
+#h_sd-ddl{
+	background:none repeat scroll 0 0 #FFFFFF;
+	border:1px solid rgba(0,0,0,0.2);
+	border-radius:0 0 0 0;
+	box-shadow:0 2px 4px rgba(0,0,0,0.2);
+	display:none;
+	font-size:13px;
+	left:-1px;
+	padding:4px 0 0 0;
+	outline:medium none;
+	position:absolute;
+	top:15px;
+	z-index:3;
+}
+.h_fd{
+	display:block;
+	cursor:pointer;
+	font-size:12px;
+	padding:1px 36px 1px 18px;
+	white-space:nowrap;
+}
+.h_fd:hover{
+	background:silver;
+}
+.h_fd:active{
+	color:#888;
+	padding-top:2px;
+}
+.fd-sel,.fd-some {
+	padding-left:5px;
+}
+.fd-sel:before {
+	color:#FF0000;
+	content:url("../images/check.png");
+	padding-right:4px;
+}
+.fd-some:before {
+	color:#FF0000;
+	content:url("../images/partial.png");
+	padding-right:4px;
+}
+.legend-colour:hover{
+	border:1px solid #333;
+}
+.legend-colour:active{
+	opacity:0.50;
+}
+.op10{
+	background-image:none;
+	border:1px solid #000;
+	opacity:0.10;
+}
+.so{
+	text-decoration:line-through;
+}
+.u-d:hover,.click-td:hover{ 
+	background:#828282;
+	color:white;
+	cursor:pointer;
+	text-decoration:underline;
+}
+
+.u-d:active,.click-td:active{
+	opacity:0.33;
+}
+.u-d.c-u:before{
+	color:red;
+	content:'* ';
+	font-weight:bold;
+}
+.u-d.c-d:after{
+	color:green;
+	content:' *';
+	font-weight:bold;
+}
+.new{
+	background-image: url("../images/new.png");
+	background-repeat: no-repeat;
+	background-position: right 0;
+	padding:0 18px 0 10px;
+}
+.notices{
+	background: url("../images/new2.png") no-repeat left 0 #FFFDA3;
+	border: 1px dotted silver;
+	line-height:22px;
+	text-indent:36px;
+}
+.q-e-c {
+	background: url("../images/e-c.png") no-repeat scroll 0 -15px rgba(0, 0, 0, 0);
+	display: inline-block;
+	height: 16px;
+	width: 18px;
+}
+.q-e-c:hover {
+	opacity:.5
+}
+.q-e-cc {
+	background: url("../images/e-c.png") no-repeat scroll 0 1px rgba(0, 0, 0, 0);
+}
+.ques{
+	font-weight:bold;
+	line-height:13px;
+	padding:1px 0;
+}
+.q-e-c:active{
+	opacity:.25;
+	padding-top:2px;
+}
+.answ{
+	display:none;
+	margin: 0 18px!important;
+}
+.gr-cb{
+	margin: 0 2px 0 8px;
+}
+label{
+	cursor:pointer;
+}
+
+#all-graphs:before,#no-graphs:before{
+	content:'[ ';
+}
+#all-graphs:after,#no-graphs:after{
+	content:' ]';
+}
+#all-graphs:hover,#no-graphs:hover{
+	background:silver;
+}
+#all-graphs:active,#no-graphs:active{
+	opacity:.5;
+	text-decoration:underline;
+}
+.disabled-btn{
+	opacity:.25;
+}
+.p-hr{
+	background-color:#C7C7C7;
+	border-bottom: 3px double #000000;
+	font-weight:bold;
+	margin: 0;
+	max-width:300px;
+	padding: 0;
+}
+.p-cu-hr{
+	background-color:#C7C7C7;
+	border-bottom: 3px double #000000;
+	font-weight:bold;
+	margin: 0;
+	max-width:600px;
+	padding: 0;
+}
+.rs-2 {
+	border-right: 1px solid;
+	padding: 0;
+	width: 140px;
+}
+.p-cu-hr .a-c {
+	text-align: center;
+}
+.p-tr {
+	margin: 0;
+	max-width:300px;
+	padding: 0;
+}
+.p-cu ,.p-cu-tot,#curr-users-gt {
+	margin: 0;
+	max-width:600px;
+	padding: 0;
+}
+.p-cu:hover{
+	cursor:pointer;
+}
+.p-cu span,.p-cu-tot span, .p-cu-hr>span,#curr-users-gt span{
+	display:inline-block;
+	padding:2px 5px 0;
+	text-align: right;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+}
+.p-cu-tot,#curr-users-gt {
+	background-color: mistyrose;
+	border-bottom: 1px solid #7C7C7C;
+	border-top: 3px double #7C7C7C;
+	color: #7c7c7c;
+	font-weight: bold;
+}
+.cu-d{
+	width:116px;
+	text-align:left!important;
+}
+.cu-o{
+	width:70px;
+	text-align:left!important;
+}
+.p-tr:last-child, .summary-row:last-child td {
+	border-bottom: 3px double black;
+}
+.td-time {
+	display: inline-block;
+	min-width: 65px;
+	padding: 2px 5px;
+}
+.p-cu-tot .td-time {
+	text-align: left;
+}
+.td-num {
+	display: inline-block;
+	min-width: 65px;
+	text-align: right;
+}
+#live-tab-section{
+	min-height:300px;
+}
+#live-tab-section .main-section{
+	display:flex;
+}
+.indent-17{
+	text-indent:17px;
+}
+.btn{
+	cursor:pointer;
+}
+.btn:hover{
+	text-decoration:underline;
+	opacity:0.75;
+}
+.btn:active{
+	opacity:0.33;
+}
+#additional-tables{
+	display:flex;
+}
+#additional-tables table{
+	flex:1;
+}
+#current-devices,#active-connections{
+	margin: 24px	24px 0 0;
+}
+#active-connections{
+	max-width: 366px;
+}
+#_detanod {
+	position: absolute;
+	right: 0px;
+	top: -12px;
+	z-index: 3;
+}
+#donate input{
+	border:none;
+	padding:none;
+}
+#livekbs-do-graph, #livekbs-up-graph {
+	float: left;
+}
+#live-graphs, #additional-tables {
+	clear: both;
+}
+#gauges{
+	position:absolute;
+	right:10px;
+	top:5px;
+}
+#sp_hourly {
+	padding-left: 24px;
+}
+#myAlert {
+	background: none repeat scroll 0 0 #FFFFFF;
+	border: 5px double #FF0000;
+	border-radius: 8px;
+	padding: 0 0 10px;
+	position: fixed;
+	right: 300px;
+	top: 200px;
+	width: 400px;
+	z-index: 5;
+}
+#myAlert>p{
+	background:silver;
+	color:white;
+	font-size:14px;
+	font-weight:bold;
+	margin:0;
+	padding: 4px 6px 4px 12px;
+}
+#edit-device {
+	background: none repeat scroll 0 0 #ffffff;
+	border: 5px double #ff0000;
+	border-radius: 8px;
+	margin-right: 48px;
+	margin-top: 24px;
+	padding: 0 0 10px;
+	position:absolute;
+	right: -14px;
+	width: 240px;
+	z-index: 5;
+}
+#edit-device	p {
+	padding: 0 12px;
+}
+#edit-device h3 {
+	padding: 0 8px;
+}
+#edit-device	label {
+	display:inline-block;
+	padding-right:4px;
+	text-align:right;
+	width:72px;
+}
+.ed-title{
+	background:silver;
+	color:white;
+	font-size:14px;
+	font-weight:bold;
+	margin:0;
+	padding: 4px 6px 4px 12px!important;
+}
+.ed-buttons{
+	text-align:center;
+}
+img{
+	margin: 0 0 2px 6px;
+	opacity:0.8;
+}
+img:hover{
+	cursor:pointer;
+}
+#myAlert img,#edit-device img {
+	float: right;
+}
+#myAlert img:hover,#devices-tab-section img:hover {
+	opacity:1;
+}
+#myAlert img:active,#devices-tab-section img:active {
+	margin: 2px 0 0 6px;
+	opacity:0.50;
+}
+#myAlert-body {
+	max-height:150px;
+	min-height:30px;
+	overflow-y:scroll;
+}
+#myAlert-body > p {
+	padding: 0 12px;
+}
+.th-tot{
+	max-width: 68px;
+}
+#sp-uptime {
+	font-weight: bold;
+	left: 494px;
+	position: absolute;
+	text-align:center;
+	top: 6px;
+}
+#serverload {
+	font-weight: bold;
+	left: 600px;
+	position: absolute;
+	top: 10px;
+}
+#serverload p{
+	margin:0;
+}
+.gradient{
+	background-image: -webkit-gradient(linear,left bottom,right bottom,color-stop(0.12, #00FF00),color-stop(0.50, #FF8C00),color-stop(0.88, #FF0000));
+	background-image: -o-linear-gradient(right, #00FF00 12%, #FF8C00 50%, #FF1B1B 88%);
+	background-image: -moz-linear-gradient(right, #00FF00 12%, #FF8C00 50%, #FF1B1B 88%);
+	background-image: -webkit-linear-gradient(right, #00FF00 12%, #FF8C00 50%, #FF1B1B 88%);
+	background-image: -ms-linear-gradient(right, #00FF00 12%, #FF8C00 50%, #FF1B1B 88%);
+	background-image: linear-gradient(to right, #00FF00 12%, #FF8C00 50%, #FF1B1B 88%);
+	display:inline-block;
+	height:9px;
+	margin: 0;
+	width:200px;
+}
+#sp_minSL, #sp_maxSL {
+	background: url("http://usage-monitoring.com/current/images/caretu.png") no-repeat scroll center -1px rgba(0, 0, 0, 0);
+	font-size: 9px;
+	padding-top: 8px;
+	position: absolute;
+}
+#sp_curSL {
+	background: url("http://usage-monitoring.com/current/images/caretd.png") no-repeat scroll center 8px rgba(0, 0, 0, 0);
+	font-size: 9px;
+	padding-bottom: 7px;
+	position: relative;
+	width: 22px;
+}
+.filter .td-time {
+	background: url("http://usage-monitoring.com/current/images/check.png") no-repeat scroll 3px 3px rgba(0, 0, 0, 0);
+}
+.dest-ip:hover{
+	cursor:pointer;
+	opacity:0.66;
+	text-decoration:underline;
+}
+.dest-ip:active{
+	color:#991133;
+	opacity:0.33;
+	padding-top:2px;
+}
+.dest-ip{
+	min-width:132px;
+	max-width:132px;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space:nowrap;
+}
+.ipfnd{
+	font-size:smaller;
+	font-style: italic;
+	color:#991133;
+}
+.ipfnd:hover{
+	cursor:normal;
+    opacity:1;
+	text-decoration:none;
+}
+.normal{
+	font-size:12px;
+	font-weight:normal;
+	padding-left:8px;
+}
+#filterIP{
+	max-width:132px;
+}
+.img-12:hover{
+	pointer:cursor;
+	opacity:0.66;
+}
+.img-12:active{
+	pointer:cursor;
+	opacity:0.22;
+	padding:2px 0 0 0;
+}
+.img-12{
+	max-height:12px;
+	max-width:12px
+}
+.newScriptVersion:after{
+	content:url('http://usage-monitoring.com/current/images/flag.png')
+}
+.bad_value{
+	color:red;
+}
+.bad_value:after{
+	content:' That value does not match the saved password!	Please try again';
+}
+.ddp.sel {
+	color: red;
+	text-decoration: underline;
+}
+.ddp:hover {
+	cursor: pointer;
+}
+.ddp:active {
+	opacity: 0.22;
+}
+.alert-icon {
+	position: absolute;
+	margin:0 0 3px 0;
+	right: 10px;
+	z-index: 6;
+}
+.alert-icon:hover {
+	opacity:1;
+}
+.alert-icon:active {
+	margin:3px 0 0 0;
+	opacity:.5;
+}
+.viewed{
+	opacity:0.33;
+}
+.cs_edit .group:after {
+	content: url("http://usage-monitoring.com/current/images/editted.png");
+	padding-left:4px;
+}
+.writing,.writing:hover {
+	background: url("http://usage-monitoring.com/current/images/writing.png") no-repeat center;
+}
+.writing:active {
+	background: url("http://usage-monitoring.com/current/images/close.png") no-repeat center;
+}
+.writing-row {
+	background: none repeat scroll 0 0 pink !important;
+	outline: 1px solid red;
+}
+.c-p{
+	display:inline-block;
+	margin: 0 4px;
+}
+.l-c{
+	display:inline-block;
+	height: 14px;
+	width:14px;
+}
+.l-c:hover{
+	border:2px solid;
+	cursor:pointer;
+	height: 11px;
+	width:11px;
+}
+
+.c-p:hover{
+	cursor:pointer;
+	opacity:1;
+	text-decoration:underline;
+}
+.l-c:active,.c-p:active{
+	opacity:0.5;
+}
+.not-sel{
+	opacity:0.25
+}
+.flagged {
+	background: url("http://usage-monitoring.com/current/images/flag.png") no-repeat left;
+	background-repeat: no-repeat;
+}
+button {
+	border-radius: 3px;
+	opacity: 0.7;
+}
+button:hover {
+	background-color:#ddd;
+	opacity: 1;
+}
+button:active {
+	opacity: .5;
+}
+
+#sv-btn {
+	background-image: url("http://usage-monitoring.com/current/images/sm-save.png");
+	background-position: 2px 2px;
+	background-repeat: no-repeat;
+	text-indent: 10px;
+}
+.sv-req{
+	color:#800000;
+	font-style:italic;	
+}
+.sv-req:after{
+	content:'!';
+}
+.db {
+	background-image: url("http://usage-monitoring.com/current/images/db.png");
+	background-position: 3px 4px;
+	background-repeat: no-repeat;
+	padding-left: 20px;
+}
+.db.sv-req {
+	background-image: url("http://usage-monitoring.com/current/images/sm-save.png");
+	background-position: 5px 4px;
+	background-repeat: no-repeat;
+	padding-left: 22px;
+}
+.dhe{
+	background-image: url("http://usage-monitoring.com/current/images/delete.png");
+	background-position: center center;
+	background-repeat: no-repeat;
+	opacity:.66;
+}
+.dhe:active{
+	opacity:1;
+	background-position: bottom center;
+}
+/*****flags*******/
+/* 
+ country flag sprite and css from http://www.cheesewiki.com/
+ country codes from https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2
+*/
+.flag {
+    background-image: url("http://usage-monitoring.com/current/images/flags16.png");
+    background-position: center 0;
+    background-repeat: no-repeat;
+    display: inline-block;
+    height: 16px;
+    padding: 0;
+    vertical-align: bottom;
+    width: 32px;
+}
+.African-Union{background-position: center -16px;}
+.Arab-League{background-position: center -32px;}
+.ASEAN{background-position: center -48px;}
+.CARICOM{background-position: center -64px;}
+.CIS{background-position: center -80px;}
+.Commonwealth{background-position: center -96px;}
+.England{background-position: center -112px;}
+.European-Union{background-position: center -128px;}
+.Islamic-Conference{background-position: center -144px;}
+.Kosovo{background-position: center -160px;}
+.NATO{background-position: center -176px;}
+.Northern-Cyprus{background-position: center -192px;}
+.Northern-Ireland{background-position: center -208px;}
+.Olimpic-Movement{background-position: center -224px;}
+.OPEC{background-position: center -240px;}
+.Red-Cross{background-position: center -256px;}
+.Scotland{background-position: center -272px;}
+.Somaliland{background-position: center -288px;}
+.Tibet{background-position: center -304px;}
+.United-Nations{background-position: center -320px;}
+.Wales{background-position: center -336px;}
+.Andorra{background-position: center -352px;}
+.United-Arab-Emirates{background-position: center -368px;}
+.Afghanistan{background-position: center -384px;}
+.Antigua-and-Barbuda{background-position: center -400px;}
+.Anguilla{background-position: center -400px;}
+.Albania{background-position: center -416px;}
+.Armenia{background-position: center -432px;}
+.an{background-position: center -448px;}
+.Angola{background-position: center -464px;}
+.Antarctica{background-position: center -480px;}
+.Argentina{background-position: center -496px;}
+.American-Samoa{background-position: center -512px;}
+.Austria{background-position: center -528px;}
+.Australia{background-position: center -544px;}
+.Aruba{background-position: center -560px;}
+.Azerbaijan{background-position: center -592px;}
+.Bosnia-and-Herzegovina{background-position: center -608px;}
+.Barbados{background-position: center -624px;}
+.Bangladesh{background-position: center -640px;}
+.Belgium{background-position: center -656px;}
+.Burkina-Faso{background-position: center -672px;}
+.Bulgaria{background-position: center -688px;}
+.Bahrain{background-position: center -704px;}
+.Burundi{background-position: center -720px;}
+.Benin{background-position: center -736px;}
+.Bermuda{background-position: center -752px;}
+.Brunei{background-position: center -768px;}
+.Bolivia{background-position: center -784px;}
+.Brazil{background-position: center -800px;}
+.Bahamas{background-position: center -816px;}
+.Bhutan{background-position: center -832px;}
+.Botswana{background-position: center -848px;}
+.Belarus{background-position: center -864px;}
+.Belize{background-position: center -880px;}
+.Canada{background-position: center -896px;}
+.Congo{background-position: center -912px;}
+.Central-African-Republic{background-position: center -928px;}
+.Congo{background-position: center -944px;}
+.Switzerland{background-position: center -960px;}
+.Cote-d-Ivoire{background-position: center -976px;}
+.Cook-Islands{background-position: center -992px;}
+.Chile{background-position: center -1008px;}
+.Cameroon{background-position: center -1024px;}
+.China{background-position: center -1040px;}
+.Colombia{background-position: center -1056px;}
+.Costa-Rica{background-position: center -1072px;}
+.Cuba{background-position: center -1088px;}
+.Cabo-Verde{background-position: center -1104px;}
+.Cyprus{background-position: center -1120px;}
+.Czech-Republic{background-position: center -1136px;}
+.Germany{background-position: center -1152px;}
+.Djibouti{background-position: center -1168px;}
+.Denmark{background-position: center -1184px;}
+.Dominica{background-position: center -1200px;}
+.Dominican-Republic{background-position: center -1216px;}
+.Algeria{background-position: center -1232px;}
+.Ecuador{background-position: center -1248px;}
+.Estonia{background-position: center -1264px;}
+.Egypt{background-position: center -1280px;}
+.Western-Sahara{background-position: center -1296px;}
+.Eritrea{background-position: center -1312px;}
+.Spain{background-position: center -1328px;}
+.Ethiopia{background-position: center -1344px;}
+.Finland{background-position: center -1360px;}
+.Fiji{background-position: center -1376px;}
+.Micronesia{background-position: center -1392px;}
+.Faroe-Islands{background-position: center -1408px;}
+.France{background-position: center -1424px;}
+.Gabon{background-position: center -1440px;}
+.United-Kingdom{background-position: center -1456px;}
+.Grenada{background-position: center -1472px;}
+.Georgia{background-position: center -1488px;}
+.Guernsey{background-position: center -1504px;}
+.Ghana{background-position: center -1520px;}
+.Gibraltar{background-position: center -1536px;}
+.Greenland{background-position: center -1552px;}
+.Gambia{background-position: center -1568px;}
+.Guinea{background-position: center -1584px;}
+.Guadeloupe{background-position: center -1600px;}
+.Equatorial-Guinea{background-position: center -1616px;}
+.Greece{background-position: center -1632px;}
+.Guatemala{background-position: center -1648px;}
+.Guam{background-position: center -1664px;}
+.Guinea-Bissau{background-position: center -1680px;}
+.Guyana{background-position: center -1696px;}
+.Hong-Kong{background-position: center -1712px;}
+.Honduras{background-position: center -1728px;}
+.Croatia{background-position: center -1744px;}
+.Haiti{background-position: center -1760px;}
+.Hungary{background-position: center -1776px;}
+.Indonesia{background-position: center -1792px;}
+.Monaco{background-position: center -1792px;}
+.Ireland{background-position: center -1808px;}
+.Israel{background-position: center -1824px;}
+.Isle-of-Man{background-position: center -1840px;}
+.India{background-position: center -1856px;}
+.Iraq{background-position: center -1872px;}
+.Iran{background-position: center -1888px;}
+.Iceland{background-position: center -1904px;}
+.Italy{background-position: center -1920px;}
+.Jersey{background-position: center -1936px;}
+.Jamaica{background-position: center -1952px;}
+.Jordan{background-position: center -1968px;}
+.Japan{background-position: center -1984px;}
+.Kenya{background-position: center -2000px;}
+.Kyrgyzstan{background-position: center -2016px;}
+.Cambodia{background-position: center -2032px;}
+.Kiribati{background-position: center -2048px;}
+.Comoros{background-position: center -2064px;}
+.Saint-Kitts-and-Nevis{background-position: center -2080px;}
+.North-Korea{background-position: center -2096px;}
+.South-Korea{background-position: center -2112px;}
+.Kuwait{background-position: center -2128px;}
+.Cayman-Islands{background-position: center -2144px;}
+.Kazakhstan{background-position: center -2160px;}
+.Laos{background-position: center -2176px;}
+.Lebanon{background-position: center -2192px;}
+.Saint-Lucia{background-position: center -2208px;}
+.Liechtenstein{background-position: center -2224px;}
+.Sri-Lanka{background-position: center -2240px;}
+.Liberia{background-position: center -2256px;}
+.Lesotho{background-position: center -2272px;}
+.Lithuania{background-position: center -2288px;}
+.Luxembourg{background-position: center -2304px;}
+.Latvia{background-position: center -2320px;}
+.Libya{background-position: center -2336px;}
+.Morocco{background-position: center -2352px;}
+.Moldova{background-position: center -2368px;}
+.Montenegro{background-position: center -2384px;}
+.Madagascar{background-position: center -2400px;}
+.Marshall-Islands{background-position: center -2416px;}
+.Macedonia{background-position: center -2432px;}
+.Mali{background-position: center -2448px;}
+.Myanmar{background-position: center -2464px;}
+.Mongolia{background-position: center -2480px;}
+.Macao{background-position: center -2496px;}
+.Martinique{background-position: center -2512px;}
+.Mauritania{background-position: center -2528px;}
+.Montserrat{background-position: center -2544px;}
+.Malta{background-position: center -2560px;}
+.Mauritius{background-position: center -2576px;}
+.Maldives{background-position: center -2592px;}
+.Malawi{background-position: center -2608px;}
+.Mexico{background-position: center -2624px;}
+.Malaysia{background-position: center -2640px;}
+.Mozambique{background-position: center -2656px;}
+.Namibia{background-position: center -2672px;}
+.New-Caledonia{background-position: center -2688px;}
+.Niger{background-position: center -2704px;}
+.Nigeria{background-position: center -2720px;}
+.Nicaragua{background-position: center -2736px;}
+.Netherlands{background-position: center -2752px;}
+.Norway{background-position: center -2768px;}
+.Nepal{background-position: center -2784px;}
+.Nauru{background-position: center -2800px;}
+.New-Zealand{background-position: center -2816px;}
+.Oman{background-position: center -2832px;}
+.Panama{background-position: center -2848px;}
+.Peru{background-position: center -2864px;}
+.French-Polynesia{background-position: center -2880px;}
+.Papua-New-Guinea{background-position: center -2896px;}
+.Philippines{background-position: center -2912px;}
+.Pakistan{background-position: center -2928px;}
+.Poland{background-position: center -2944px;}
+.Puerto-Rico{background-position: center -2960px;}
+.Palestine{background-position: center -2976px;}
+.Portugal{background-position: center -2992px;}
+.Palau{background-position: center -3008px;}
+.Paraguay{background-position: center -3024px;}
+.Qatar{background-position: center -3040px;}
+.Reunion{background-position: center -3056px;}
+.Romania{background-position: center -3072px;}
+.Serbia{background-position: center -3088px;}
+.Russian-Federation{background-position: center -3104px;}
+.Rwanda{background-position: center -3120px;}
+.Saudi Arabia{background-position: center -3136px;}
+.Solomon-Islands{background-position: center -3152px;}
+.Seychelles{background-position: center -3168px;}
+.Sudan{background-position: center -3184px;}
+.Sweden{background-position: center -3200px;}
+.Singapore{background-position: center -3216px;}
+.Slovenia{background-position: center -3232px;}
+.Slovakia{background-position: center -3248px;}
+.Sierra Leone{background-position: center -3264px;}
+.San-Marino{background-position: center -3280px;}
+.Senegal{background-position: center -3296px;}
+.Somalia{background-position: center -3312px;}
+.Suriname{background-position: center -3328px;}
+.Sao-Tome-and-Principe{background-position: center -3344px;}
+.El-Salvador{background-position: center -3360px;}
+.Syrian-Arab-Republic{background-position: center -3376px;}
+.Swaziland{background-position: center -3392px;}
+.Turks-and-Caicos-Islands{background-position: center -3408px;}
+.Chad{background-position: center -3424px;}
+.Togo{background-position: center -3440px;}
+.Thailand{background-position: center -3456px;}
+.Tajikistan{background-position: center -3472px;}
+.Timor-Leste{background-position: center -3488px;}
+.Turkmenistan{background-position: center -3504px;}
+.Tunisia{background-position: center -3520px;}
+.Tonga{background-position: center -3536px;}
+.Turkey{background-position: center -3552px;}
+.Trinidad-and-Tobago{background-position: center -3568px;}
+.Tuvalu{background-position: center -3584px;}
+.Taiwan{background-position: center -3600px;}
+.Tanzania{background-position: center -3616px;}
+.Ukraine{background-position: center -3632px;}
+.Uganda{background-position: center -3648px;}
+.United-States{background-position: center -3664px;}
+.Uruguay{background-position: center -3680px;}
+.Uzbekistan{background-position: center -3696px;}
+.Holy-See{background-position: center -3712px;}
+.Saint-Vincent-and-the-Grenadines{background-position: center -3728px;}
+.Venezuela{background-position: center -3744px;}
+.British-Virgin-Islands{background-position: center -3760px;}
+.Virgin Islands{background-position: center -3776px;}
+.Viet-Nam{background-position: center -3792px;}
+.Vanuatu{background-position: center -3808px;}
+.Samoa{background-position: center -3824px;}
+.Yemen{background-position: center -3840px;}
+.South-Africa{background-position: center -3856px;}
+.Zambia{background-position: center -3872px;}
+.Zimbabwe{background-position: center -3872px;}

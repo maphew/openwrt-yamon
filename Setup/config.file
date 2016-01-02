@@ -79,7 +79,7 @@ _bridgeIP="192.168.x.xxx"                    # ip address for the bridge device.
 _defaultOwner="Unknown"                      # default owner name for new devices
 _defaultDeviceName="New Device"              # default name for new devices if nothing can be found by the script
 _includeIPv6=0                               # whether or not your router is configured for IPv6: 0->no(*) || 1->yes
-_doLocalFiles='0'	 # make a local copy of JS, CSS and images: 0->no(*recommended) || 1->copy using `curl` ||  2->copy using `wget`
+_doLocalFiles='2'	 # make a local copy of JS, CSS and images: 0->no(*recommended) || 1->copy using `curl` ||  2->copy using `wget`
                                              #   NB - set to 1 or 2 if you do not want use the files hosted at my domain (usage-monitoring.com)
                                              #   Some firmware versions do not support the `curl` function... set to 2 if you get errors with 1
 _dbkey=''                                    # if not null, this option will sync settings across all of your devices... 
